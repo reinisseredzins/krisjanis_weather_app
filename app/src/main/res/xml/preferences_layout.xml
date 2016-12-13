@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:key="pref_temp_type"
+        android:entryValues="@array/temp_entry_values"
+        android:entries="@array/entries"
+        android:defaultValue="@string/temp_type_default_value"
+        android:dialogTitle="@string/temp_type_dialog_value"
+        android:title="@string/temp_type_dialog_value"
+        />
+
+</PreferenceScreen>
