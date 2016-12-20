@@ -2,11 +2,10 @@ package com.example.pc.weatherapplication.WeatherList;
 
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,17 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.pc.weatherapplication.ActivityFragmentInterface;
+import com.example.pc.weatherapplication.FragmentActivityInterface;
 import com.example.pc.weatherapplication.FragmentInterface;
 import com.example.pc.weatherapplication.JSON.Forecast;
-import com.example.pc.weatherapplication.JSON.Weather;
-import com.example.pc.weatherapplication.JSON_Daily.Example;
 import com.example.pc.weatherapplication.R;
 import com.example.pc.weatherapplication.WeatherService;
-
-import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,14 +31,23 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class WeatherFragment extends Fragment implements Callback<Forecast>, SwipeRefreshLayout.OnRefreshListener, FragmentInterface {
+public class WeatherFragment extends Fragment implements Callback<Forecast>,  FragmentInterface, ActivityFragmentInterface {
     private WeatherAdapter mAdapter;
-    private ProgressBar mProgressBar;
     private View mErrorScreen;
     private boolean hasFetchedData = false;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private FragmentActivityInterface mMainActivity;
 
     public static final String TAG = WeatherFragment.class.getSimpleName();
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof FragmentActivityInterface) {
+            mMainActivity = (FragmentActivityInterface) context;
+        } else {
+            throw new IllegalArgumentException("Activity must implement FragmentActivity interface.");
+        }
+    }
 
     public WeatherFragment() {
         // Required empty public constructor
@@ -55,8 +60,9 @@ public class WeatherFragment extends Fragment implements Callback<Forecast>, Swi
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_weather, container, false);
         final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.weather_list);
-        mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
         mErrorScreen = view.findViewById(R.id.error_screen);
+
+
 
         Button retryButton = (Button) mErrorScreen.findViewById(R.id.retry_button);
         retryButton.setOnClickListener(new View.OnClickListener() {
@@ -64,12 +70,8 @@ public class WeatherFragment extends Fragment implements Callback<Forecast>, Swi
             public void onClick(View view) {
                 fetchNewData();
                 showOrHideErrorScreen(false);
-                showOrHideProgressBar(true);
             }
         });
-
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
 
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -79,10 +81,6 @@ public class WeatherFragment extends Fragment implements Callback<Forecast>, Swi
         recyclerView.setAdapter(mAdapter);
         recyclerView.setLayoutManager(linearLayoutManager);
         return view;
-    }
-
-    private void showOrHideProgressBar(Boolean isVisible) {
-        mProgressBar.setVisibility(isVisible ? View.VISIBLE : View.GONE);
     }
 
     private void showOrHideErrorScreen(Boolean isVisible) {
@@ -99,7 +97,6 @@ public class WeatherFragment extends Fragment implements Callback<Forecast>, Swi
     private void fetchNewData() {
         String unitTypes = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("pref_temp_type", "metric");
         Log.v("omg", unitTypes);
-
         WeatherService.getWeatherForecast(this, unitTypes);
     }
 
@@ -110,16 +107,14 @@ public class WeatherFragment extends Fragment implements Callback<Forecast>, Swi
             mAdapter.setDataSet(forecast.getList());
         }
         hasFetchedData = true;
-        showOrHideProgressBar(false);
         Log.v("SSS", response.toString());
-        mSwipeRefreshLayout.setRefreshing(false);
+        mMainActivity.hideSwipeLayout();
     }
 
     @Override
     public void onFailure(Call<Forecast> call, Throwable t) {
         TextView errorText = (TextView) mErrorScreen.findViewById(R.id.error_text);
         showOrHideErrorScreen(true);
-        showOrHideProgressBar(false);
         if (java.io.IOException.class.isInstance(t)) {
             errorText.setText("Error! No internet connection!");
         } else {
@@ -130,12 +125,14 @@ public class WeatherFragment extends Fragment implements Callback<Forecast>, Swi
     }
 
     @Override
-    public void onRefresh() {
-        fetchNewData();
+    public String getFragmentTag() {
+        return TAG;
     }
 
     @Override
-    public String getFragmentTag() {
-        return TAG;
+    public void reloadData() {
+        String unitTypes = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("pref_temp_type", "metric");
+        Log.v("omg", unitTypes);
+        WeatherService.getWeatherForecast(this, unitTypes);
     }
 }

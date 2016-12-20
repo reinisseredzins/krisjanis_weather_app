@@ -4,20 +4,20 @@ package com.example.pc.weatherapplication.Daily;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.pc.weatherapplication.ActivityFragmentInterface;
 import com.example.pc.weatherapplication.FragmentInterface;
 import com.example.pc.weatherapplication.JSON_Daily.Example;
 import com.example.pc.weatherapplication.R;
 import com.example.pc.weatherapplication.WeatherList.DailyAdapter;
-import com.example.pc.weatherapplication.WeatherList.DetailsAdapter;
 import com.example.pc.weatherapplication.WeatherService;
 
 
@@ -28,7 +28,7 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DailyFragment extends Fragment implements Callback<com.example.pc.weatherapplication.JSON_Daily.Example>, FragmentInterface {
+public class DailyFragment extends Fragment implements Callback<com.example.pc.weatherapplication.JSON_Daily.Example>, FragmentInterface, ActivityFragmentInterface {
 
     private DailyAdapter mDaily;
 
@@ -46,12 +46,16 @@ public class DailyFragment extends Fragment implements Callback<com.example.pc.w
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_daily, container, false);
+        final View view = inflater.inflate(R.layout.fragment_daily, container, false);
+
+
         Bundle bundle = getArguments();
         mDaily = new DailyAdapter();
         final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.weather_daily);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(recyclerView.getContext(), linearLayoutManager.getOrientation());
+        recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setAdapter(mDaily);
         recyclerView.setLayoutManager(linearLayoutManager);
         return view;
@@ -59,9 +63,6 @@ public class DailyFragment extends Fragment implements Callback<com.example.pc.w
 
     private void fetchNewDaily() {
         String unitTypes = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("pref_temp_type", "metric");
-        /**int cityidint = getArguments().getInt("key");
-        String cityid = String.valueOf(cityidint);**/
-
         Log.v("omg", unitTypes);
         WeatherService.getDaily(this, "94043", unitTypes);
     }
@@ -90,5 +91,12 @@ public class DailyFragment extends Fragment implements Callback<com.example.pc.w
     @Override
     public String getFragmentTag() {
         return TAG;
+    }
+
+    @Override
+    public void reloadData() {
+            String unitTypes = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("pref_temp_type", "metric");
+            Log.v("omg", unitTypes);
+            WeatherService.getDaily(this, "94043", unitTypes);
     }
 }
