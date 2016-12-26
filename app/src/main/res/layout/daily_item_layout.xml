@@ -19,6 +19,11 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/weather_day"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
             android:id="@+id/weather_description_daily"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

@@ -56,7 +56,7 @@ public class WeatherService {
 
     public static Call<com.example.pc.weatherapplication.JSON_Daily.Example> getDaily(Callback<com.example.pc.weatherapplication.JSON_Daily.Example> callback, String cityid, String units ) {
         final WeatherAPI weatherAPI = getRetrofitClient();
-        Call<com.example.pc.weatherapplication.JSON_Daily.Example> forecasrtCall = weatherAPI.fetchDaily(cityid, units, 14, "4c056cebab6673b2a6f683da3777698f");
+        Call<com.example.pc.weatherapplication.JSON_Daily.Example> forecasrtCall = weatherAPI.fetchDaily(cityid, units, 8, "4c056cebab6673b2a6f683da3777698f");
         forecasrtCall.enqueue(callback);
         return forecasrtCall;
     }

@@ -61,17 +61,11 @@ public class DailyFragment extends Fragment implements Callback<com.example.pc.w
         return view;
     }
 
-    private void fetchNewDaily() {
-        String unitTypes = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("pref_temp_type", "metric");
-        Log.v("omg", unitTypes);
-        WeatherService.getDaily(this, "94043", unitTypes);
-    }
-
 
     @Override
     public void onStart() {
         super.onStart();
-        fetchNewDaily();
+        reloadData();
 
     }
 
@@ -97,6 +91,6 @@ public class DailyFragment extends Fragment implements Callback<com.example.pc.w
     public void reloadData() {
             String unitTypes = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("pref_temp_type", "metric");
             Log.v("omg", unitTypes);
-            WeatherService.getDaily(this, "94043", unitTypes);
+            WeatherService.getDaily(this, "Riga", unitTypes);
     }
 }
