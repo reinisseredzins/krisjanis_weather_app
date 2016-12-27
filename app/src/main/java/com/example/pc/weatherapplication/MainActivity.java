@@ -14,9 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.example.pc.weatherapplication.Daily.DailyFragment;
-import com.example.pc.weatherapplication.Settings.SettingsFragment;
-import com.example.pc.weatherapplication.WeatherList.WeatherFragment;
+import com.example.pc.weatherapplication.fragments.DailyFragment;
+import com.example.pc.weatherapplication.fragments.SettingsFragment;
+import com.example.pc.weatherapplication.fragments.WeatherFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SwipeRefreshLayout.OnRefreshListener, FragmentActivityInterface {
 

@@ -1,10 +1,6 @@
 package com.example.pc.weatherapplication;
 
-import android.support.v7.view.ActionMode;
-import android.util.Log;
-
-import com.example.pc.weatherapplication.JSON.Forecast;
-import com.example.pc.weatherapplication.details.DetailsFragment;
+import com.example.pc.weatherapplication.weather_now.Forecast;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -13,9 +9,6 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by Krisjanis on 04/11/2016.
- */
 
 public class WeatherService {
 
@@ -27,7 +20,7 @@ public class WeatherService {
         if (mWeatherAPI == null) {
             HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
             loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            final OkHttpClient okHttpClient = new  OkHttpClient.Builder()
+            final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .addInterceptor(loggingInterceptor)
                     .build();
             Retrofit retrofit = new Retrofit.Builder()
@@ -47,19 +40,17 @@ public class WeatherService {
         return forecastCall;
     }
 
-    public static Call<com.example.pc.weatherapplication.JSON_Details.Example> getDetails(Callback<com.example.pc.weatherapplication.JSON_Details.Example> callback, String cityid, String units) {
+    public static Call<com.example.pc.weatherapplication.weather_details.Example> getDetails(Callback<com.example.pc.weatherapplication.weather_details.Example> callback, String cityid, String units) {
         final WeatherAPI weatherAPI = getRetrofitClient();
-        Call<com.example.pc.weatherapplication.JSON_Details.Example> forecastCall = weatherAPI.fetchDetails(cityid, "4c056cebab6673b2a6f683da3777698f", units);
+        Call<com.example.pc.weatherapplication.weather_details.Example> forecastCall = weatherAPI.fetchDetails(cityid, "4c056cebab6673b2a6f683da3777698f", units);
         forecastCall.enqueue(callback);
         return forecastCall;
     }
 
-    public static Call<com.example.pc.weatherapplication.JSON_Daily.Example> getDaily(Callback<com.example.pc.weatherapplication.JSON_Daily.Example> callback, String cityid, String units ) {
+    public static Call<com.example.pc.weatherapplication.weather_daily.Example> getDaily(Callback<com.example.pc.weatherapplication.weather_daily.Example> callback, String cityid, String units) {
         final WeatherAPI weatherAPI = getRetrofitClient();
-        Call<com.example.pc.weatherapplication.JSON_Daily.Example> forecasrtCall = weatherAPI.fetchDaily(cityid, units, 8, "4c056cebab6673b2a6f683da3777698f");
+        Call<com.example.pc.weatherapplication.weather_daily.Example> forecasrtCall = weatherAPI.fetchDaily(cityid, units, 8, "4c056cebab6673b2a6f683da3777698f");
         forecasrtCall.enqueue(callback);
         return forecasrtCall;
     }
-
-
 }
