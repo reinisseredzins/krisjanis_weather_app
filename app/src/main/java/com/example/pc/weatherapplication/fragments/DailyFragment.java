@@ -42,7 +42,6 @@ public class DailyFragment extends Fragment implements Callback<com.example.pc.w
 
         final View view = inflater.inflate(R.layout.fragment_daily, container, false);
 
-        Bundle bundle = getArguments();
         mDaily = new DailyAdapter();
         final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.weather_daily);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -58,11 +57,11 @@ public class DailyFragment extends Fragment implements Callback<com.example.pc.w
     public void onStart() {
         super.onStart();
         reloadData();
-
     }
 
     @Override
     public void onResponse(Call<com.example.pc.weatherapplication.weather_daily.Example> call, Response<com.example.pc.weatherapplication.weather_daily.Example> response) {
+        Log.v("VVV", "onResponse");
         final Example forecast = response.body();
         mDaily.setDailySet(forecast.getList());
     }
@@ -78,6 +77,7 @@ public class DailyFragment extends Fragment implements Callback<com.example.pc.w
 
     @Override
     public void reloadData() {
+        Log.v("VVV", "reloadData");
         String unitTypes = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("pref_temp_type", "metric");
         WeatherService.getDaily(this, "Riga", unitTypes);
     }
