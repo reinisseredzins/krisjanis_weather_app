@@ -13,8 +13,8 @@ import com.example.pc.weatherapplication.weather_daily.List;
 import com.example.pc.weatherapplication.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 
@@ -22,8 +22,8 @@ import java.util.concurrent.TimeUnit;
 public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.WeatherListViewHolderDaily> {
 
     java.util.List<List> mDailySet = new ArrayList<>();
+    SimpleDateFormat inFormat = new SimpleDateFormat("EEEE, dd MMMM yyyy");
 
-    int i = 0;
 
     @Override
     public DailyAdapter.WeatherListViewHolderDaily onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -36,73 +36,11 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.WeatherListV
 
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.setTimeInMillis(TimeUnit.SECONDS.toMillis(mDailySet.get(position).getDt()));
-        Integer currentDay = calendar.get(Calendar.DAY_OF_WEEK);
 
-        switch (currentDay) {
-            case 2:
-                //monday
-                if (i == 0) {
-                    holder.mDay.setText("Tomorrow");
-                    ++i;
-                } else {
-                    holder.mDay.setText("Monday");
-                }
-                break;
-            case 3:
-                //tuesday
-                if (i == 0) {
-                    holder.mDay.setText("Tomorrow");
-                    ++i;
-                } else {
-                    holder.mDay.setText("Tuesday");
-                }
-                break;
-            case 4:
-                //wednesday
-                if (i == 0) {
-                    holder.mDay.setText("Tomorrow");
-                    ++i;
-                } else {
-                    holder.mDay.setText("Wednesday");
-                }
-                break;
-            case 5:
-                //thursday
-                if (i == 0) {
-                    holder.mDay.setText("Tomorrow");
-                    ++i;
-                } else {
-                    holder.mDay.setText("Thursday");
-                }
-                break;
-            case 6:
-                //friday
-                if (i == 0) {
-                    holder.mDay.setText("Tomorrow");
-                    ++i;
-                } else {
-                    holder.mDay.setText("Friday");
-                }
-                break;
-            case 7:
-                //saturday
-                if (i == 0) {
-                    holder.mDay.setText("Tomorrow");
-                    ++i;
-                } else {
-                    holder.mDay.setText("Saturday");
-                }
-                break;
-            case 1:
-                //sunday
-                if (i == 0) {
-                    holder.mDay.setText("Tomorrow");
-                    ++i;
-                } else {
-                    holder.mDay.setText("Sunday");
-                }
-                break;
-        }
+
+        String date = inFormat.format(calendar.getTime());
+        holder.mDay.setText(date);
+
 
         String unitTypes = PreferenceManager.getDefaultSharedPreferences(holder.mTemp.getContext()).getString("pref_temp_type", "metric");
 
@@ -119,6 +57,8 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.WeatherListV
         } else {
             holder.mTemp.setText(textTemp + fahrenheit);
         }
+
+
     }
 
     static class WeatherListViewHolderDaily extends RecyclerView.ViewHolder {
@@ -142,9 +82,13 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.WeatherListV
     }
 
     public void setDailySet(java.util.List<List> newDataSet) {
-        newDataSet.remove(0);
+        removeTodayAndTomorrow(newDataSet);
         mDailySet = newDataSet;
         notifyDataSetChanged();
-        i = 0;
+    }
+
+    public void removeTodayAndTomorrow(java.util.List<List> newDataSet) {
+        newDataSet.remove(0);
+        newDataSet.remove(0);
     }
 }

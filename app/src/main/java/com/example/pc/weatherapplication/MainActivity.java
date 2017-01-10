@@ -23,9 +23,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout mDrawerLayout;
     private ProgressBar mProgressBar;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private ActivityFragmentInterface mWeatherFragment;
     private ActivityFragmentInterface mDailyFragment;
-    //private ActivityFragmentInterface mNowFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +32,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment dailyFragment = new DailyFragment();
         Fragment nowFragment = new NowFragment();
 
-        //mNowFragment = (ActivityFragmentInterface) nowFragment;
         mDailyFragment = (ActivityFragmentInterface) dailyFragment;
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
@@ -92,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onRefresh() {
-        //mWeatherFragment.reloadData();
         mDailyFragment.reloadData();
     }
 

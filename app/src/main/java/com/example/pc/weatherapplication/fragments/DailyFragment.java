@@ -11,15 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.pc.weatherapplication.ActivityFragmentInterface;
 import com.example.pc.weatherapplication.FragmentInterface;
-import com.example.pc.weatherapplication.weather_daily.Example;
 import com.example.pc.weatherapplication.R;
-import com.example.pc.weatherapplication.adapters.DailyAdapter;
 import com.example.pc.weatherapplication.WeatherService;
-
+import com.example.pc.weatherapplication.adapters.DailyAdapter;
+import com.example.pc.weatherapplication.weather_daily.Example;
 
 import retrofit2.Call;
 import retrofit2.Callback;
