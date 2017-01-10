@@ -1,47 +1,73 @@
 package com.example.pc.weatherapplication;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
 
 import com.example.pc.weatherapplication.fragments.DailyFragment;
 import com.example.pc.weatherapplication.fragments.NowFragment;
-import com.example.pc.weatherapplication.fragments.SettingsFragment;
+import com.example.pc.weatherapplication.fragments.TomorrowFragment;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SwipeRefreshLayout.OnRefreshListener, FragmentActivityInterface {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawerLayout;
-    private ProgressBar mProgressBar;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
-    private ActivityFragmentInterface mDailyFragment;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setOffscreenPageLimit(2);
         Fragment dailyFragment = new DailyFragment();
         Fragment nowFragment = new NowFragment();
 
-        mDailyFragment = (ActivityFragmentInterface) dailyFragment;
-        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
-        mSwipeRefreshLayout.setOnRefreshListener(this);
-
-        getFragmentManager().beginTransaction().replace(R.id.daily_conrainer, dailyFragment).commit();
-        getFragmentManager().beginTransaction().replace(R.id.fragment_conrainer, nowFragment).commit();
+        final List<Fragment> fragmentList = new ArrayList<>();
+        fragmentList.add(nowFragment);
+        fragmentList.add(new TomorrowFragment());
+        fragmentList.add(dailyFragment);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager(), fragmentList);
+        viewPager.setAdapter(adapter);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText("Today"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tomorrow"));
+        tabLayout.addTab(tabLayout.newTab().setText("Next 10 days"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, myToolbar, R.string.open_drawer, R.string.close_drawer);
@@ -50,51 +76,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        showOrHideProgressBar(true);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+
         FragmentInterface fragmentToUse = null;
 
-         if (item.getItemId() == R.id.nav_settings) {
-            fragmentToUse = new SettingsFragment();
-        } else if (item.getItemId() == R.id.nav_test) {
-            fragmentToUse = new DailyFragment();
-            mDailyFragment = (ActivityFragmentInterface) fragmentToUse;
+        if (item.getItemId() == R.id.nav_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
         }
 
-        getFragmentManager().beginTransaction().replace(R.id.fragment_conrainer, (Fragment) fragmentToUse).addToBackStack(fragmentToUse.getFragmentTag()).commit();
 
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         }
         return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        final Fragment currentFragment = getFragmentManager().findFragmentById(R.id.fragment_conrainer);
-        if (currentFragment instanceof NowFragment) {
-            this.finish();
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    private void showOrHideProgressBar(Boolean isVisible) {
-        mProgressBar.setVisibility(isVisible ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    public void onRefresh() {
-        mDailyFragment.reloadData();
-    }
-
-    @Override
-    public void hideSwipeLayout() {
-        mSwipeRefreshLayout.setRefreshing(false);
-        showOrHideProgressBar(false);
     }
 }

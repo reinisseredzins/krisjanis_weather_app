@@ -2,20 +2,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.pc.weatherapplication.fragments.NowFragment">
+    tools:context="com.example.pc.weatherapplication.fragments.TomorrowFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_layout_now"
+        android:id="@+id/swipe_layout_tomorrow"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
         <TextView
-            android:id="@+id/now_temp"
+            android:id="@+id/tomorrow_temp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="@dimen/now_temp" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
 </FrameLayout>

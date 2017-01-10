@@ -12,33 +12,31 @@ import android.widget.TextView;
 
 import com.example.pc.weatherapplication.R;
 import com.example.pc.weatherapplication.WeatherService;
-import com.example.pc.weatherapplication.weather_now.Example;
+import com.example.pc.weatherapplication.weather_daily.Example;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class NowFragment extends Fragment implements Callback<Example>, SwipeRefreshLayout.OnRefreshListener {
+public class TomorrowFragment extends Fragment implements Callback<Example>, SwipeRefreshLayout.OnRefreshListener {
 
     private TextView mTemp;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
-    public NowFragment() {}
+    public TomorrowFragment() {
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.fragment_tomorrow, container, false);
 
-
-        final View view = inflater.inflate(R.layout.fragment_now, container, false);
-
-        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout_now);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout_tomorrow);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
-        mTemp = (TextView) view.findViewById(R.id.now_temp);
-
-
+        mTemp = (TextView) view.findViewById(R.id.tomorrow_temp);
 
         return view;
     }
@@ -53,22 +51,23 @@ public class NowFragment extends Fragment implements Callback<Example>, SwipeRef
     public void onResponse(Call<Example> call, Response<Example> response) {
         mSwipeRefreshLayout.setRefreshing(false);
         final Example forecast = response.body();
-        mTemp.setText(Double.toString(forecast.getMain().getTemp()));
+        mTemp.setText(Double.toString(forecast.getList().get(1).getTemp().getDay()));
     }
 
-    @Override
-    public void onFailure(Call<Example> call, Throwable t) {}
 
+    @Override
+    public void onFailure(Call<Example> call, Throwable t) {
+    }
 
     public void reloadData() {
         String unitTypes = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("pref_temp_type", "metric");
-        WeatherService.getWeatherForecast(this, unitTypes);
+        WeatherService.getDaily(this, "Riga", unitTypes);
     }
-
 
     @Override
     public void onRefresh() {
         mSwipeRefreshLayout.setRefreshing(true);
         reloadData();
     }
+
 }

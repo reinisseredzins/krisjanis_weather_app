@@ -12,7 +12,7 @@ public interface WeatherAPI {
     @GET("data/2.5/weather")
     Call<Example> fetchWeatherForecast(
             @Query("q") String city,
-            @Query("appid") String appid,
+            @Query("APPID") String appid,
             @Query("units") String units
     );
 

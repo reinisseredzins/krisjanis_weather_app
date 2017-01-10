@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.pc.weatherapplication.weather_daily.List;
 import com.example.pc.weatherapplication.R;
+import com.example.pc.weatherapplication.weather_daily.List;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
