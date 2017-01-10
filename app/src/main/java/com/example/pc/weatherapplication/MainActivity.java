@@ -15,8 +15,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.pc.weatherapplication.fragments.DailyFragment;
+import com.example.pc.weatherapplication.fragments.NowFragment;
 import com.example.pc.weatherapplication.fragments.SettingsFragment;
-import com.example.pc.weatherapplication.fragments.WeatherFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SwipeRefreshLayout.OnRefreshListener, FragmentActivityInterface {
 
@@ -25,22 +25,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private ActivityFragmentInterface mWeatherFragment;
     private ActivityFragmentInterface mDailyFragment;
+    //private ActivityFragmentInterface mNowFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Fragment fragment = new WeatherFragment();
         Fragment dailyFragment = new DailyFragment();
+        Fragment nowFragment = new NowFragment();
 
-        mWeatherFragment = (ActivityFragmentInterface) fragment;
+        //mNowFragment = (ActivityFragmentInterface) nowFragment;
         mDailyFragment = (ActivityFragmentInterface) dailyFragment;
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         getFragmentManager().beginTransaction().replace(R.id.daily_conrainer, dailyFragment).commit();
-        getFragmentManager().beginTransaction().replace(R.id.fragment_conrainer, fragment).commit();
+        getFragmentManager().beginTransaction().replace(R.id.fragment_conrainer, nowFragment).commit();
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -60,10 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         FragmentInterface fragmentToUse = null;
 
-        if (item.getItemId() == R.id.nav_current_weather) {
-            fragmentToUse = new WeatherFragment();
-            mWeatherFragment = (ActivityFragmentInterface) fragmentToUse;
-        } else if (item.getItemId() == R.id.nav_settings) {
+         if (item.getItemId() == R.id.nav_settings) {
             fragmentToUse = new SettingsFragment();
         } else if (item.getItemId() == R.id.nav_test) {
             fragmentToUse = new DailyFragment();
@@ -81,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         final Fragment currentFragment = getFragmentManager().findFragmentById(R.id.fragment_conrainer);
-        if (currentFragment instanceof WeatherFragment) {
+        if (currentFragment instanceof NowFragment) {
             this.finish();
         } else {
             super.onBackPressed();
@@ -94,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onRefresh() {
-        mWeatherFragment.reloadData();
+        //mWeatherFragment.reloadData();
         mDailyFragment.reloadData();
     }
 

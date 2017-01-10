@@ -1,115 +1,64 @@
+
 package com.example.pc.weatherapplication.weather_now;
 
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@Generated("org.jsonschema2pojo")
 public class Main {
 
     @SerializedName("temp")
     @Expose
-    private Double temp;
+    private Integer temp;
     @SerializedName("pressure")
     @Expose
-    private Double pressure;
+    private Integer pressure;
     @SerializedName("humidity")
     @Expose
-    private Double humidity;
+    private Integer humidity;
     @SerializedName("temp_min")
     @Expose
-    private Double tempMin;
+    private Integer tempMin;
     @SerializedName("temp_max")
     @Expose
-    private Double tempMax;
+    private Integer tempMax;
 
-    /**
-     * 
-     * @return
-     *     The temp
-     */
-    public Double getTemp() {
+    public Integer getTemp() {
         return temp;
     }
 
-    /**
-     * 
-     * @param temp
-     *     The temp
-     */
-    public void setTemp(Double temp) {
+    public void setTemp(Integer temp) {
         this.temp = temp;
     }
 
-    /**
-     * 
-     * @return
-     *     The pressure
-     */
-    public Double getPressure() {
+    public Integer getPressure() {
         return pressure;
     }
 
-    /**
-     * 
-     * @param pressure
-     *     The pressure
-     */
-    public void setPressure(Double pressure) {
+    public void setPressure(Integer pressure) {
         this.pressure = pressure;
     }
 
-    /**
-     * 
-     * @return
-     *     The humidity
-     */
-    public Double getHumidity() {
+    public Integer getHumidity() {
         return humidity;
     }
 
-    /**
-     * 
-     * @param humidity
-     *     The humidity
-     */
-    public void setHumidity(Double humidity) {
+    public void setHumidity(Integer humidity) {
         this.humidity = humidity;
     }
 
-    /**
-     * 
-     * @return
-     *     The tempMin
-     */
-    public Double getTempMin() {
+    public Integer getTempMin() {
         return tempMin;
     }
 
-    /**
-     * 
-     * @param tempMin
-     *     The temp_min
-     */
-    public void setTempMin(Double tempMin) {
+    public void setTempMin(Integer tempMin) {
         this.tempMin = tempMin;
     }
 
-    /**
-     * 
-     * @return
-     *     The tempMax
-     */
-    public Double getTempMax() {
+    public Integer getTempMax() {
         return tempMax;
     }
 
-    /**
-     * 
-     * @param tempMax
-     *     The temp_max
-     */
-    public void setTempMax(Double tempMax) {
+    public void setTempMax(Integer tempMax) {
         this.tempMax = tempMax;
     }
 

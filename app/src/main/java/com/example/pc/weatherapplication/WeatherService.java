@@ -1,6 +1,6 @@
 package com.example.pc.weatherapplication;
 
-import com.example.pc.weatherapplication.weather_now.Forecast;
+import com.example.pc.weatherapplication.weather_now.Example;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -33,9 +33,9 @@ public class WeatherService {
         return mWeatherAPI;
     }
 
-    public static Call<Forecast> getWeatherForecast(Callback<Forecast> callback, String units) {
+    public static Call<Example> getWeatherForecast(Callback<Example> callback, String units) {
         final WeatherAPI weatherAPI = getRetrofitClient();
-        Call<Forecast> forecastCall = weatherAPI.fetchWeatherForecast("-12,59,31,43", "yes", "4c056cebab6673b2a6f683da3777698f", units);
+        Call<Example> forecastCall = weatherAPI.fetchWeatherForecast("Riga", "4c056cebab6673b2a6f683da3777698f", units);
         forecastCall.enqueue(callback);
         return forecastCall;
     }
