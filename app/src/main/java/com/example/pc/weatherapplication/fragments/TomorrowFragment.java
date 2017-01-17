@@ -2,14 +2,18 @@ package com.example.pc.weatherapplication.fragments;
 
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.pc.weatherapplication.ActivityFragmentInterface;
+import com.example.pc.weatherapplication.FragmentActivityInterface;
 import com.example.pc.weatherapplication.R;
 import com.example.pc.weatherapplication.WeatherService;
 import com.example.pc.weatherapplication.weather_daily.Example;
@@ -19,12 +23,30 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class TomorrowFragment extends Fragment implements Callback<Example>, SwipeRefreshLayout.OnRefreshListener {
+public class TomorrowFragment extends Fragment implements Callback<Example>, SwipeRefreshLayout.OnRefreshListener, ActivityFragmentInterface {
 
     private TextView mTemp;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private String TAG = TomorrowFragment.class.getSimpleName();
+
+    FragmentActivityInterface fragmentActivityInterface;
 
     public TomorrowFragment() {
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof FragmentActivityInterface) {
+            fragmentActivityInterface = (FragmentActivityInterface) context;
+        } else {
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        fragmentActivityInterface = null;
     }
 
 
@@ -57,6 +79,12 @@ public class TomorrowFragment extends Fragment implements Callback<Example>, Swi
 
     @Override
     public void onFailure(Call<Example> call, Throwable t) {
+        Log.e(TAG, "Received error from NowFragment network call");
+        mSwipeRefreshLayout.setRefreshing(false);
+        if (fragmentActivityInterface != null) {
+            fragmentActivityInterface.showofflinesnackbar();
+
+        }
     }
 
     public void reloadData() {

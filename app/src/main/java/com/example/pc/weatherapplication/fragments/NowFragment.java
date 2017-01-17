@@ -2,6 +2,7 @@ package com.example.pc.weatherapplication.fragments;
 
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -11,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.pc.weatherapplication.ActivityFragmentInterface;
+import com.example.pc.weatherapplication.FragmentActivityInterface;
+import com.example.pc.weatherapplication.MainActivity;
 import com.example.pc.weatherapplication.R;
 import com.example.pc.weatherapplication.WeatherService;
 import com.example.pc.weatherapplication.weather_now.Example;
@@ -20,13 +24,30 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class NowFragment extends Fragment implements Callback<Example>, SwipeRefreshLayout.OnRefreshListener {
+public class NowFragment extends Fragment implements Callback<Example>, SwipeRefreshLayout.OnRefreshListener, ActivityFragmentInterface {
 
     private String TAG = NowFragment.class.getSimpleName();
     private TextView mTemp;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
+    FragmentActivityInterface fragmentActivityInterface;
+
     public NowFragment() {}
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof  FragmentActivityInterface) {
+            fragmentActivityInterface = (FragmentActivityInterface) context;
+        } else {
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        fragmentActivityInterface = null;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +72,7 @@ public class NowFragment extends Fragment implements Callback<Example>, SwipeRef
         reloadData();
     }
 
+
     @Override
     public void onResponse(Call<Example> call, Response<Example> response) {
         mSwipeRefreshLayout.setRefreshing(false);
@@ -61,6 +83,11 @@ public class NowFragment extends Fragment implements Callback<Example>, SwipeRef
     @Override
     public void onFailure(Call<Example> call, Throwable t) {
         Log.e(TAG, "Received error from NowFragment network call");
+        mSwipeRefreshLayout.setRefreshing(false);
+        if (fragmentActivityInterface != null) {
+            fragmentActivityInterface.showofflinesnackbar();
+
+        }
     }
 
     public void reloadData() {
@@ -74,4 +101,5 @@ public class NowFragment extends Fragment implements Callback<Example>, SwipeRef
         mSwipeRefreshLayout.setRefreshing(true);
         reloadData();
     }
-}
+    }
+
