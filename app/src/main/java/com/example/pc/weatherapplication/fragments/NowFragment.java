@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import retrofit2.Response;
 
 public class NowFragment extends Fragment implements Callback<Example>, SwipeRefreshLayout.OnRefreshListener {
 
+    private String TAG = NowFragment.class.getSimpleName();
     private TextView mTemp;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -57,12 +59,13 @@ public class NowFragment extends Fragment implements Callback<Example>, SwipeRef
     }
 
     @Override
-    public void onFailure(Call<Example> call, Throwable t) {}
-
+    public void onFailure(Call<Example> call, Throwable t) {
+        Log.e(TAG, "Received error from NowFragment network call");
+    }
 
     public void reloadData() {
         String unitTypes = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("pref_temp_type", "metric");
-        WeatherService.getWeatherForecast(this, unitTypes);
+        WeatherService.getWeatherForecast(this, "Riga", unitTypes);
     }
 
 

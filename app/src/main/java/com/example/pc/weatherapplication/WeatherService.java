@@ -35,9 +35,9 @@ public class WeatherService {
         return mWeatherAPI;
     }
 
-    public static Call<Example> getWeatherForecast(Callback<Example> callback, String units) {
+    public static Call<Example> getWeatherForecast(Callback<Example> callback, String city, String units) {
         final WeatherAPI weatherAPI = getRetrofitClient();
-        Call<Example> forecastCall = weatherAPI.fetchWeatherForecast("Riga", KEY, units);
+        Call<Example> forecastCall = weatherAPI.fetchWeatherForecast(city, KEY, units);
         forecastCall.enqueue(callback);
         return forecastCall;
     }
