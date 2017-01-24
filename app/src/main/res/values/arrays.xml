@@ -2,12 +2,26 @@
 <resources>
     <string-array name="temp_entry_values" >
         <item>metric</item>
-        <item>imperial</item>4
+        <item>imperial</item>
     </string-array>
 
-    <string-array name="entries">
+    <string-array name="temp">
         <item>Metric</item>
         <item>Imperial</item>
     </string-array>
+
+    <string-array name="city_name" >
+        <item>Riga</item>
+        <item>Vilnius</item>
+        <item>Tallinn</item>
+    </string-array>
+
+
+    <string-array name="cities" >
+        <item>Riga</item>
+        <item>Vilnius</item>
+        <item>Tallinn</item>
+    </string-array>
+
 
 </resources>

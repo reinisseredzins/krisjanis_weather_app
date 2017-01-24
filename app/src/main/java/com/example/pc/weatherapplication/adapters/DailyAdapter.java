@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.pc.weatherapplication.R;
+import com.example.pc.weatherapplication.utils.Constants;
 import com.example.pc.weatherapplication.weather_daily.List;
 import com.squareup.picasso.Picasso;
 
@@ -21,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.WeatherListViewHolderDaily> {
 
-    java.util.List<List> mDailySet = new ArrayList<>();
+    java.util.List<List> mDailyList = new ArrayList<>();
     SimpleDateFormat inFormat = new SimpleDateFormat("EEEE, dd MMMM yyyy");
 
 
@@ -35,7 +36,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.WeatherListV
     public void onBindViewHolder(DailyAdapter.WeatherListViewHolderDaily holder, int position) {
 
         GregorianCalendar calendar = new GregorianCalendar();
-        calendar.setTimeInMillis(TimeUnit.SECONDS.toMillis(mDailySet.get(position).getDt()));
+        calendar.setTimeInMillis(TimeUnit.SECONDS.toMillis(mDailyList.get(position).getDt()));
 
 
         String date = inFormat.format(calendar.getTime());
@@ -44,21 +45,17 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.WeatherListV
 
         String unitTypes = PreferenceManager.getDefaultSharedPreferences(holder.mTemp.getContext()).getString("pref_temp_type", "metric");
 
-        final String icon = (mDailySet.get(position).getWeather().get(0).getIcon());
-        final String IMAGE_URL = "http://openweathermap.org/img/w/" + icon + ".png";
-        holder.mWeatherDescription.setText(mDailySet.get(position).getWeather().get(0).getDescription());
-        Picasso.with(holder.mImage.getContext()).load(IMAGE_URL).into(holder.mImage);
+        final String icon = (mDailyList.get(position).getWeather().get(0).getIcon());
+        holder.mWeatherDescription.setText(mDailyList.get(position).getWeather().get(0).getDescription());
+        Picasso.with(holder.mImage.getContext())
+                                  .load(Constants.getImageUrl(icon))
+                                  .into(holder.mImage);
         String celsius = "°C";
         String fahrenheit = "°F";
-        String textTemp = Long.toString(Math.round(mDailySet.get(position).getTemp().getDay()));
+        String textTemp = Long.toString(Math.round(mDailyList.get(position).getTemp().getDay()));
 
-        if (unitTypes.equals("metric")) {
-            holder.mTemp.setText(textTemp + celsius);
-        } else {
-            holder.mTemp.setText(textTemp + fahrenheit);
-        }
-
-
+        String units = unitTypes.equals("metric") ? celsius : fahrenheit;
+        holder.mTemp.setText(textTemp + units);
     }
 
     static class WeatherListViewHolderDaily extends RecyclerView.ViewHolder {
@@ -78,12 +75,12 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.WeatherListV
 
     @Override
     public int getItemCount() {
-        return mDailySet.size();
+        return mDailyList.size();
     }
 
     public void setDailySet(java.util.List<List> newDataSet) {
         removeTodayAndTomorrow(newDataSet);
-        mDailySet = newDataSet;
+        mDailyList = newDataSet;
         notifyDataSetChanged();
     }
 

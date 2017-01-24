@@ -16,14 +16,15 @@ import com.example.pc.weatherapplication.ActivityFragmentInterface;
 import com.example.pc.weatherapplication.FragmentActivityInterface;
 import com.example.pc.weatherapplication.R;
 import com.example.pc.weatherapplication.WeatherService;
-import com.example.pc.weatherapplication.weather_daily.Example;
+import com.example.pc.weatherapplication.utils.PreferenceUtils;
+import com.example.pc.weatherapplication.weather_daily.ExampleDaily;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class TomorrowFragment extends Fragment implements Callback<Example>, SwipeRefreshLayout.OnRefreshListener, ActivityFragmentInterface {
+public class TomorrowFragment extends Fragment implements Callback<ExampleDaily>, SwipeRefreshLayout.OnRefreshListener, ActivityFragmentInterface {
 
     private TextView mTemp;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -70,15 +71,15 @@ public class TomorrowFragment extends Fragment implements Callback<Example>, Swi
     }
 
     @Override
-    public void onResponse(Call<Example> call, Response<Example> response) {
+    public void onResponse(Call<ExampleDaily> call, Response<ExampleDaily> response) {
         mSwipeRefreshLayout.setRefreshing(false);
-        final Example forecast = response.body();
+        final ExampleDaily forecast = response.body();
         mTemp.setText(Double.toString(forecast.getList().get(1).getTemp().getDay()));
     }
 
 
     @Override
-    public void onFailure(Call<Example> call, Throwable t) {
+    public void onFailure(Call<ExampleDaily> call, Throwable t) {
         Log.e(TAG, "Received error from NowFragment network call");
         mSwipeRefreshLayout.setRefreshing(false);
         if (fragmentActivityInterface != null) {
@@ -88,8 +89,9 @@ public class TomorrowFragment extends Fragment implements Callback<Example>, Swi
     }
 
     public void reloadData() {
-        String unitTypes = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("pref_temp_type", "metric");
-        WeatherService.getDaily(this, "Riga", unitTypes);
+        String unitTypes = PreferenceUtils.getUnitTypes(getActivity());
+        String city = PreferenceUtils.getCityTypes(getActivity());
+        WeatherService.getDaily(this, city, unitTypes);
     }
 
     @Override

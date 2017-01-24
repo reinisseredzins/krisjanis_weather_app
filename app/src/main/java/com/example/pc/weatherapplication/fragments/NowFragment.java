@@ -14,17 +14,17 @@ import android.widget.TextView;
 
 import com.example.pc.weatherapplication.ActivityFragmentInterface;
 import com.example.pc.weatherapplication.FragmentActivityInterface;
-import com.example.pc.weatherapplication.MainActivity;
 import com.example.pc.weatherapplication.R;
 import com.example.pc.weatherapplication.WeatherService;
-import com.example.pc.weatherapplication.weather_now.Example;
+import com.example.pc.weatherapplication.utils.PreferenceUtils;
+import com.example.pc.weatherapplication.weather_now.ExampleNow;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class NowFragment extends Fragment implements Callback<Example>, SwipeRefreshLayout.OnRefreshListener, ActivityFragmentInterface {
+public class NowFragment extends Fragment implements Callback<ExampleNow>, SwipeRefreshLayout.OnRefreshListener, ActivityFragmentInterface {
 
     private String TAG = NowFragment.class.getSimpleName();
     private TextView mTemp;
@@ -62,7 +62,6 @@ public class NowFragment extends Fragment implements Callback<Example>, SwipeRef
         mTemp = (TextView) view.findViewById(R.id.now_temp);
 
 
-
         return view;
     }
 
@@ -74,14 +73,14 @@ public class NowFragment extends Fragment implements Callback<Example>, SwipeRef
 
 
     @Override
-    public void onResponse(Call<Example> call, Response<Example> response) {
+    public void onResponse(Call<ExampleNow> call, Response<ExampleNow> response) {
         mSwipeRefreshLayout.setRefreshing(false);
-        final Example forecast = response.body();
+        final ExampleNow forecast = response.body();
         mTemp.setText(Double.toString(forecast.getMain().getTemp()));
     }
 
     @Override
-    public void onFailure(Call<Example> call, Throwable t) {
+    public void onFailure(Call<ExampleNow> call, Throwable t) {
         Log.e(TAG, "Received error from NowFragment network call");
         mSwipeRefreshLayout.setRefreshing(false);
         if (fragmentActivityInterface != null) {
@@ -91,8 +90,9 @@ public class NowFragment extends Fragment implements Callback<Example>, SwipeRef
     }
 
     public void reloadData() {
-        String unitTypes = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("pref_temp_type", "metric");
-        WeatherService.getWeatherForecast(this, "Riga", unitTypes);
+        String unitTypes = PreferenceUtils.getUnitTypes(getActivity());
+        String city = PreferenceUtils.getCityTypes(getActivity());
+        WeatherService.getWeatherForecast(this, city, unitTypes);
     }
 
 

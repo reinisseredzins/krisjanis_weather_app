@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ActivityFragmentInterface nowFragmentCast = (ActivityFragmentInterface) nowFragment;
     ActivityFragmentInterface tomorrowFragmentCast = (ActivityFragmentInterface) tomorrowFragment;
     ActivityFragmentInterface dailyFragmentCast = (ActivityFragmentInterface) dailyFragment;
+
 
 
     @Override
@@ -101,6 +103,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String city = PreferenceManager.getDefaultSharedPreferences(this).getString("pref_city", "riga");
+        city = Character.toUpperCase(city.charAt(0)) + city.substring(1);
+        setTitle(city);
     }
 
     @Override
@@ -145,5 +156,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 })
                 .show();
     }
+
 
 }

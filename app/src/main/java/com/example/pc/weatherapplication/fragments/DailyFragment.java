@@ -19,14 +19,15 @@ import com.example.pc.weatherapplication.FragmentActivityInterface;
 import com.example.pc.weatherapplication.R;
 import com.example.pc.weatherapplication.WeatherService;
 import com.example.pc.weatherapplication.adapters.DailyAdapter;
-import com.example.pc.weatherapplication.weather_daily.Example;
+import com.example.pc.weatherapplication.utils.PreferenceUtils;
+import com.example.pc.weatherapplication.weather_daily.ExampleDaily;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class DailyFragment extends Fragment implements Callback<com.example.pc.weatherapplication.weather_daily.Example>, SwipeRefreshLayout.OnRefreshListener, ActivityFragmentInterface {
+public class DailyFragment extends Fragment implements Callback<ExampleDaily>, SwipeRefreshLayout.OnRefreshListener, ActivityFragmentInterface {
 
     private DailyAdapter mDaily;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -87,14 +88,14 @@ public class DailyFragment extends Fragment implements Callback<com.example.pc.w
     }
 
     @Override
-    public void onResponse(Call<com.example.pc.weatherapplication.weather_daily.Example> call, Response<com.example.pc.weatherapplication.weather_daily.Example> response) {
+    public void onResponse(Call<ExampleDaily> call, Response<ExampleDaily> response) {
         mSwipeRefreshLayout.setRefreshing(false);
-        final Example forecast = response.body();
+        final ExampleDaily forecast = response.body();
         mDaily.setDailySet(forecast.getList());
     }
 
     @Override
-    public void onFailure(Call<com.example.pc.weatherapplication.weather_daily.Example> call, Throwable t) {
+    public void onFailure(Call<ExampleDaily> call, Throwable t) {
         Log.e(TAG, "Received error from NowFragment network call");
         mSwipeRefreshLayout.setRefreshing(false);
         if (fragmentActivityInterface != null) {
@@ -105,8 +106,9 @@ public class DailyFragment extends Fragment implements Callback<com.example.pc.w
     }
 
     public void reloadData() {
-        String unitTypes = PreferenceManager.getDefaultSharedPreferences(getActivity()).getString("pref_temp_type", "metric");
-        WeatherService.getDaily(this, "Riga",  unitTypes);
+        String unitTypes = PreferenceUtils.getUnitTypes(getActivity());
+        String city = PreferenceUtils.getCityTypes(getActivity());
+        WeatherService.getDaily(this, city,  unitTypes);
     }
 
     @Override

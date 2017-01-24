@@ -4,10 +4,19 @@
     <ListPreference
         android:key="pref_temp_type"
         android:entryValues="@array/temp_entry_values"
-        android:entries="@array/entries"
+        android:entries="@array/temp"
         android:defaultValue="@string/temp_type_default_value"
         android:dialogTitle="@string/temp_type_dialog_value"
         android:title="@string/temp_type_dialog_value"
+        />
+    <EditTextPreference
+        android:key="pref_city"
+        android:entryValues="@array/city_name"
+        android:entries="@array/cities"
+        android:defaultValue="@string/city_type_default_value"
+        android:dialogTitle="@string/city_type_dialog_value"
+        android:title="@string/city_type_dialog_value"
+        android:summary="Default"
         />
 
 </PreferenceScreen>
