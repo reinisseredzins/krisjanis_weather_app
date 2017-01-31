@@ -15,4 +15,5 @@ public class Constants {
        return String.format(IMAGE_URL, iconId);
     }
 
+
 }

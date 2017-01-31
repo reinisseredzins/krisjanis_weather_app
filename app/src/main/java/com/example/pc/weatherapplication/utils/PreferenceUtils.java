@@ -6,7 +6,7 @@ import android.preference.PreferenceManager;
 
 public class PreferenceUtils {
 
-    private static final String PREFERRED_CITY_KEY =  "pref_city";
+    private static final String PREFERRED_CITY_KEY = "pref_city";
     private static final String DEFAULT_CITY = "riga";
 
     private static final String PREFERRED_TEMPERATURE_TYPE_KEY = "pref_temp_type";
@@ -17,6 +17,9 @@ public class PreferenceUtils {
     }
 
     public static String getUnitTypes(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getString(PREFERRED_TEMPERATURE_TYPE_KEY, DEFAULT_TYPE);
+        if (context != null) {
+            return PreferenceManager.getDefaultSharedPreferences(context).getString(PREFERRED_TEMPERATURE_TYPE_KEY, DEFAULT_TYPE);
+        }
+        return DEFAULT_TYPE;
     }
 }

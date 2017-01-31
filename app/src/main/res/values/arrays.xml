@@ -10,18 +10,4 @@
         <item>Imperial</item>
     </string-array>
 
-    <string-array name="city_name" >
-        <item>Riga</item>
-        <item>Vilnius</item>
-        <item>Tallinn</item>
-    </string-array>
-
-
-    <string-array name="cities" >
-        <item>Riga</item>
-        <item>Vilnius</item>
-        <item>Tallinn</item>
-    </string-array>
-
-
 </resources>
