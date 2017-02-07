@@ -82,10 +82,10 @@ public class NowFragment extends Fragment implements Callback<ExampleNow>, Swipe
     @Override
     public void onFailure(Call<ExampleNow> call, Throwable t) {
         Log.e(TAG, "Received error from NowFragment network call");
+
         mSwipeRefreshLayout.setRefreshing(false);
         if (fragmentActivityInterface != null) {
             fragmentActivityInterface.showofflinesnackbar();
-
         }
     }
 

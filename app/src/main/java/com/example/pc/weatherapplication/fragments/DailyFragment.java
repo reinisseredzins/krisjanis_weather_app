@@ -97,6 +97,7 @@ public class DailyFragment extends Fragment implements Callback<ExampleDaily>, S
     @Override
     public void onFailure(Call<ExampleDaily> call, Throwable t) {
         Log.e(TAG, "Received error from NowFragment network call");
+
         mSwipeRefreshLayout.setRefreshing(false);
         if (fragmentActivityInterface != null) {
             fragmentActivityInterface.showofflinesnackbar();

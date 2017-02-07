@@ -13,11 +13,14 @@ public class PreferenceUtils {
     private static final String DEFAULT_TYPE = "metric";
 
     public static String getCityTypes(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context).getString(PREFERRED_CITY_KEY, DEFAULT_CITY);
+        if (context != null && context.getPackageName() != null) {
+            return PreferenceManager.getDefaultSharedPreferences(context).getString(PREFERRED_CITY_KEY, DEFAULT_CITY);
+        }
+        return DEFAULT_TYPE;
     }
 
     public static String getUnitTypes(Context context) {
-        if (context != null) {
+        if (context != null && context.getPackageName() != null)  {
             return PreferenceManager.getDefaultSharedPreferences(context).getString(PREFERRED_TEMPERATURE_TYPE_KEY, DEFAULT_TYPE);
         }
         return DEFAULT_TYPE;
