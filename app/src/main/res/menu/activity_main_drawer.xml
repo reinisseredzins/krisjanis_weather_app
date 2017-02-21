@@ -4,10 +4,13 @@
 
     <item android:title="@string/sections">
 
-            <item
+        <item
+            android:id="@+id/current_location"
+            android:title="@string/current_location"/>
+        <item
                 android:id="@+id/nav_current_weather"
                 android:title="@string/weather_default"/>
-            <item
+        <item
                 android:id="@+id/nav_settings"
                 android:title="@string/settings_title"/>
     </item>

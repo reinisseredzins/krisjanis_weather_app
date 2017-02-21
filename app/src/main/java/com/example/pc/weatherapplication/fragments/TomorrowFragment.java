@@ -17,14 +17,14 @@ import com.example.pc.weatherapplication.FragmentActivityInterface;
 import com.example.pc.weatherapplication.R;
 import com.example.pc.weatherapplication.WeatherService;
 import com.example.pc.weatherapplication.utils.PreferenceUtils;
-import com.example.pc.weatherapplication.weather_daily.ExampleDaily;
+import com.example.pc.weatherapplication.weather_daily.WeatherDaily;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class TomorrowFragment extends Fragment implements Callback<ExampleDaily>, SwipeRefreshLayout.OnRefreshListener, ActivityFragmentInterface {
+public class TomorrowFragment extends Fragment implements Callback<WeatherDaily>, SwipeRefreshLayout.OnRefreshListener, ActivityFragmentInterface {
 
     private TextView mTemp;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -71,15 +71,15 @@ public class TomorrowFragment extends Fragment implements Callback<ExampleDaily>
     }
 
     @Override
-    public void onResponse(Call<ExampleDaily> call, Response<ExampleDaily> response) {
+    public void onResponse(Call<WeatherDaily> call, Response<WeatherDaily> response) {
         mSwipeRefreshLayout.setRefreshing(false);
-        final ExampleDaily forecast = response.body();
+        final WeatherDaily forecast = response.body();
         mTemp.setText(Double.toString(forecast.getList().get(1).getTemp().getDay()));
     }
 
 
     @Override
-    public void onFailure(Call<ExampleDaily> call, Throwable t) {
+    public void onFailure(Call<WeatherDaily> call, Throwable t) {
         Log.e(TAG, "Received error from NowFragment network call");
 
         mSwipeRefreshLayout.setRefreshing(false);

@@ -1,10 +1,15 @@
 package com.example.pc.weatherapplication.fragments;
 
 
+import android.Manifest;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.v13.app.FragmentCompat;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,21 +18,23 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.pc.weatherapplication.ActivityFragmentInterface;
 import com.example.pc.weatherapplication.FragmentActivityInterface;
+import com.example.pc.weatherapplication.MainActivity;
 import com.example.pc.weatherapplication.R;
 import com.example.pc.weatherapplication.WeatherService;
 import com.example.pc.weatherapplication.adapters.DailyAdapter;
 import com.example.pc.weatherapplication.utils.PreferenceUtils;
-import com.example.pc.weatherapplication.weather_daily.ExampleDaily;
+import com.example.pc.weatherapplication.weather_daily.WeatherDaily;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class DailyFragment extends Fragment implements Callback<ExampleDaily>, SwipeRefreshLayout.OnRefreshListener, ActivityFragmentInterface {
+public class DailyFragment extends Fragment implements Callback<WeatherDaily>, SwipeRefreshLayout.OnRefreshListener, ActivityFragmentInterface {
 
     private DailyAdapter mDaily;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -77,7 +84,6 @@ public class DailyFragment extends Fragment implements Callback<ExampleDaily>, S
         recyclerView.setAdapter(mDaily);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-
         return view;
     }
 
@@ -88,14 +94,14 @@ public class DailyFragment extends Fragment implements Callback<ExampleDaily>, S
     }
 
     @Override
-    public void onResponse(Call<ExampleDaily> call, Response<ExampleDaily> response) {
+    public void onResponse(Call<WeatherDaily> call, Response<WeatherDaily> response) {
         mSwipeRefreshLayout.setRefreshing(false);
-        final ExampleDaily forecast = response.body();
+        final WeatherDaily forecast = response.body();
         mDaily.setDailySet(forecast.getList());
     }
 
     @Override
-    public void onFailure(Call<ExampleDaily> call, Throwable t) {
+    public void onFailure(Call<WeatherDaily> call, Throwable t) {
         Log.e(TAG, "Received error from NowFragment network call");
 
         mSwipeRefreshLayout.setRefreshing(false);
@@ -105,6 +111,9 @@ public class DailyFragment extends Fragment implements Callback<ExampleDaily>, S
         }
 
     }
+
+
+
 
     public void reloadData() {
         String unitTypes = PreferenceUtils.getUnitTypes(getActivity());

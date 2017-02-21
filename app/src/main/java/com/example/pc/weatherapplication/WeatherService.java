@@ -1,9 +1,9 @@
 package com.example.pc.weatherapplication;
 
 import com.example.pc.weatherapplication.utils.Constants;
-import com.example.pc.weatherapplication.weather_daily.ExampleDaily;
-import com.example.pc.weatherapplication.weather_details.ExampleDetails;
-import com.example.pc.weatherapplication.weather_now.ExampleNow;
+import com.example.pc.weatherapplication.weather_daily.WeatherDaily;
+import com.example.pc.weatherapplication.weather_details.WeatherDetails;
+import com.example.pc.weatherapplication.weather_now.WeatherNow;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -34,23 +34,23 @@ public class WeatherService {
         return mWeatherAPI;
     }
 
-    public static Call<ExampleNow> getWeatherForecast(Callback<ExampleNow> callback, String city, String units) {
+    public static Call<WeatherNow> getWeatherForecast(Callback<WeatherNow> callback, String city, String units) {
         final WeatherAPI weatherAPI = getRetrofitClient();
-        Call<ExampleNow> forecastCall = weatherAPI.fetchWeatherForecast(city, Constants.KEY, units);
+        Call<WeatherNow> forecastCall = weatherAPI.fetchWeatherForecast(city, Constants.KEY, units);
         forecastCall.enqueue(callback);
         return forecastCall;
     }
 
-    public static Call<ExampleDetails> getDetails(Callback<ExampleDetails> callback, String cityid, String units) {
+    public static Call<WeatherDetails> getDetails(Callback<WeatherDetails> callback, String cityid, String units) {
         final WeatherAPI weatherAPI = getRetrofitClient();
-        Call<ExampleDetails> forecastCall = weatherAPI.fetchDetails(cityid, Constants.KEY, units);
+        Call<WeatherDetails> forecastCall = weatherAPI.fetchDetails(cityid, Constants.KEY, units);
         forecastCall.enqueue(callback);
         return forecastCall;
     }
 
-    public static Call<ExampleDaily> getDaily(Callback<ExampleDaily> callback, String cityid, String units) {
+    public static Call<WeatherDaily> getDaily(Callback<WeatherDaily> callback, String cityid, String units) {
         final WeatherAPI weatherAPI = getRetrofitClient();
-        Call<ExampleDaily> forecastCall = weatherAPI.fetchDaily(cityid, units, Constants.DAY_COUNT, Constants.KEY);
+        Call<WeatherDaily> forecastCall = weatherAPI.fetchDaily(cityid, units, Constants.DAY_COUNT, Constants.KEY);
         forecastCall.enqueue(callback);
         return forecastCall;
     }

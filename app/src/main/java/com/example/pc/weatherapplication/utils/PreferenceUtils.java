@@ -25,4 +25,6 @@ public class PreferenceUtils {
         }
         return DEFAULT_TYPE;
     }
+
+
 }

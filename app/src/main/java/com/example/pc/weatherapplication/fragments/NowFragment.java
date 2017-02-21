@@ -17,14 +17,14 @@ import com.example.pc.weatherapplication.FragmentActivityInterface;
 import com.example.pc.weatherapplication.R;
 import com.example.pc.weatherapplication.WeatherService;
 import com.example.pc.weatherapplication.utils.PreferenceUtils;
-import com.example.pc.weatherapplication.weather_now.ExampleNow;
+import com.example.pc.weatherapplication.weather_now.WeatherNow;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class NowFragment extends Fragment implements Callback<ExampleNow>, SwipeRefreshLayout.OnRefreshListener, ActivityFragmentInterface {
+public class NowFragment extends Fragment implements Callback<WeatherNow>, SwipeRefreshLayout.OnRefreshListener, ActivityFragmentInterface {
 
     private String TAG = NowFragment.class.getSimpleName();
     private TextView mTemp;
@@ -73,14 +73,14 @@ public class NowFragment extends Fragment implements Callback<ExampleNow>, Swipe
 
 
     @Override
-    public void onResponse(Call<ExampleNow> call, Response<ExampleNow> response) {
+    public void onResponse(Call<WeatherNow> call, Response<WeatherNow> response) {
         mSwipeRefreshLayout.setRefreshing(false);
-        final ExampleNow forecast = response.body();
+        final WeatherNow forecast = response.body();
         mTemp.setText(Double.toString(forecast.getMain().getTemp()));
     }
 
     @Override
-    public void onFailure(Call<ExampleNow> call, Throwable t) {
+    public void onFailure(Call<WeatherNow> call, Throwable t) {
         Log.e(TAG, "Received error from NowFragment network call");
 
         mSwipeRefreshLayout.setRefreshing(false);

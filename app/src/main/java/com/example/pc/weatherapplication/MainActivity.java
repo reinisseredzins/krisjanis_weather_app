@@ -1,16 +1,22 @@
 package com.example.pc.weatherapplication;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v13.app.FragmentCompat;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.PermissionChecker;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -22,11 +28,14 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.pc.weatherapplication.fragments.DailyFragment;
 import com.example.pc.weatherapplication.fragments.NowFragment;
 import com.example.pc.weatherapplication.fragments.TomorrowFragment;
+import com.example.pc.weatherapplication.utils.PreferenceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +46,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ViewPager viewPager;
     private boolean snackbarisseen;
 
+    TextView menuCurrentLocation;
+    TextView menuDefault;
+    TextView menuSettings;
+
     Fragment dailyFragment = new DailyFragment();
     Fragment tomorrowFragment = new TomorrowFragment();
     Fragment nowFragment = new NowFragment();
@@ -45,11 +58,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ActivityFragmentInterface dailyFragmentCast = (ActivityFragmentInterface) dailyFragment;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        menuCurrentLocation = (TextView) findViewById(R.id.menu_current_location);
+        menuDefault = (TextView) findViewById(R.id.menu_default);
+        menuSettings = (TextView) findViewById(R.id.menu_settings);
+
+        String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
+        if(!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED))  {
+            ActivityCompat.requestPermissions(this, permissions, 1);
+        } else {
+            menuCurrentLocation.setVisibility(View.VISIBLE);
+            Log.v("FINE", "Location already granted");
+        }
+
+
+        menuCurrentLocation = (TextView) findViewById(R.id.menu_current_location);
+        menuDefault = (TextView) findViewById(R.id.menu_default);
+        menuSettings = (TextView) findViewById(R.id.menu_settings);
+
+        menuCurrentLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        menuDefault.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        menuSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(settingsIntent);
+            }
+        });
+
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setOffscreenPageLimit(2);
 
@@ -71,6 +123,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+
+
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -108,8 +164,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
-
     }
+
 
     @Override
     protected void onResume() {
@@ -121,21 +177,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-
-        FragmentInterface fragmentToUse = null;
-
-        if (item.getItemId() == R.id.nav_settings) {
-            Intent settingsIntent = new Intent(this, SettingsActivity.class);
-            startActivity(settingsIntent);
-        }
-
-
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         }
         return true;
     }
+
+
 
     public boolean isOnline(Context context) {
 
@@ -162,5 +210,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .show();
     }
 
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 1)   {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                menuCurrentLocation.setVisibility(View.VISIBLE);
+            } else {
+                menuCurrentLocation.setVisibility(View.GONE);
+            }
+        }
+    }
 }
