@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -25,9 +26,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,10 +38,10 @@ import android.widget.Toast;
 import com.example.pc.weatherapplication.fragments.DailyFragment;
 import com.example.pc.weatherapplication.fragments.NowFragment;
 import com.example.pc.weatherapplication.fragments.TomorrowFragment;
-import com.example.pc.weatherapplication.utils.PreferenceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentActivityInterface {
 
@@ -49,6 +52,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     TextView menuCurrentLocation;
     TextView menuDefault;
     TextView menuSettings;
+    TextView menuAddCity;
+
+    TextView city1;
+    TextView city2;
+    TextView city3;
+    TextView city4;
+    TextView city5;
 
     Fragment dailyFragment = new DailyFragment();
     Fragment tomorrowFragment = new TomorrowFragment();
@@ -66,19 +76,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         menuCurrentLocation = (TextView) findViewById(R.id.menu_current_location);
         menuDefault = (TextView) findViewById(R.id.menu_default);
         menuSettings = (TextView) findViewById(R.id.menu_settings);
+        menuAddCity = (TextView) findViewById(R.id.city_add);
+
+        city1 = (TextView) findViewById(R.id.city1);
+        city2 = (TextView) findViewById(R.id.city2);
+        city3 = (TextView) findViewById(R.id.city3);
+        city4 = (TextView) findViewById(R.id.city4);
+        city5 = (TextView) findViewById(R.id.city5);
 
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
-        if(!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED))  {
+        if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
             ActivityCompat.requestPermissions(this, permissions, 1);
         } else {
             menuCurrentLocation.setVisibility(View.VISIBLE);
             Log.v("FINE", "Location already granted");
         }
 
-
-        menuCurrentLocation = (TextView) findViewById(R.id.menu_current_location);
-        menuDefault = (TextView) findViewById(R.id.menu_default);
-        menuSettings = (TextView) findViewById(R.id.menu_settings);
 
         menuCurrentLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +106,101 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         });
+
+        menuAddCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int i=1;
+                Boolean b = false;
+                for (i=1; i<=5; i++) {
+                    String city = "city" + i;
+                    switch (city) {
+                        case "city1":
+                           if (city1.getVisibility() == View.GONE) {
+                               city1.setText("text1");
+                               city1.setVisibility(View.VISIBLE);
+                               b = true;
+                           }
+                            break;
+                        case "city2":
+                            if (city2.getVisibility() == View.GONE) {
+                                city2.setText("text2");
+                                city2.setVisibility(View.VISIBLE);
+                                b = true;
+                            }
+                            break;
+                        case "city3":
+                            if (city3.getVisibility() == View.GONE) {
+                                city3.setText("text3");
+                                city3.setVisibility(View.VISIBLE);
+                                b = true;
+                            }
+                            break;
+                        case "city4":
+                            if (city4.getVisibility() == View.GONE) {
+                                city4.setText("text4");
+                                city4.setVisibility(View.VISIBLE);
+                                b = true;
+                            }
+                            break;
+                        case "city5":
+                            if (city5.getVisibility() == View.GONE) {
+                                city5.setText("text5");
+                                city5.setVisibility(View.VISIBLE);
+                                b = true;
+                            }
+                            break;
+                    }
+                    if (b == true) {
+                        break;
+                    }
+                }
+                if (b == false) {
+                    Toast.makeText(MainActivity.this, "Number of 5 max cities have already been added", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        city1.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                view.setVisibility(View.GONE);
+                return false;
+            }
+        });
+
+        city2.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                view.setVisibility(View.GONE);
+                return false;
+            }
+        });
+
+        city3.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                view.setVisibility(View.GONE);
+                return false;
+            }
+        });
+
+        city4.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                view.setVisibility(View.GONE);
+                return false;
+            }
+        });
+
+        city5.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                view.setVisibility(View.GONE);
+                return false;
+            }
+        });
+
 
         menuSettings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,28 +233,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
 
-
-
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-                if (!snackbarisseen && ! isOnline(MainActivity.this)) {
+                if (!snackbarisseen && !isOnline(MainActivity.this)) {
                     showofflinesnackbar();
-
                 }
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabUnselected(TabLayout.Tab tab) {}
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-
+            public void onTabReselected(TabLayout.Tab tab) {}
         });
 
 
@@ -155,8 +255,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-
-        if (! isOnline(MainActivity.this)) {
+        if (!isOnline(MainActivity.this)) {
             showofflinesnackbar();
         }
 
@@ -184,14 +283,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
     public boolean isOnline(Context context) {
 
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return (netInfo != null && netInfo.isConnected());
     }
-
 
 
     public void showofflinesnackbar() {
@@ -212,7 +309,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 1)   {
+        if (requestCode == 1) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 menuCurrentLocation.setVisibility(View.VISIBLE);
             } else {

@@ -48,10 +48,13 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/nav_layout_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="top">
 
             <TextView
                 android:id="@+id/menu_current_location"
@@ -69,15 +72,82 @@
                 android:text="@string/default_city"
                 android:textSize="@dimen/default_menu_text" />
 
-            <TextView
-                android:id="@+id/menu_settings"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/default_menu_height"
-                android:gravity="center"
-                android:text="@string/settings_title"
-                android:textSize="@dimen/default_menu_text" />
 
-        </LinearLayout>
+
+                <TextView
+                    android:id="@+id/city1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_menu_height"
+                    android:gravity="center"
+                    android:text="test1"
+                    android:textSize="@dimen/default_menu_text"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/city2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_menu_height"
+                    android:gravity="center"
+                    android:text="test2"
+                    android:textSize="@dimen/default_menu_text"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/city3"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_menu_height"
+                    android:gravity="center"
+                    android:text="test3"
+                    android:textSize="@dimen/default_menu_text"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/city4"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_menu_height"
+                    android:gravity="center"
+                    android:text="test4"
+                    android:textSize="@dimen/default_menu_text"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/city5"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_menu_height"
+                    android:gravity="center"
+                    android:text="test5"
+                    android:textSize="@dimen/default_menu_text"
+                    android:visibility="gone"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="bottom">
+
+                    <TextView
+                        android:id="@+id/city_add"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/default_menu_height"
+                        android:gravity="center"
+                        android:text="@string/add_city"
+                        android:textSize="@dimen/default_menu_text"
+                        android:background="#878787"
+                        android:layout_weight="1"/>
+
+
+                <TextView
+                    android:id="@+id/menu_settings"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/default_menu_height"
+                    android:gravity="center"
+                    android:text="@string/settings_title"
+                    android:textSize="@dimen/default_menu_text"
+                    android:background="#515151"/>
+            </LinearLayout>
+
     </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>
