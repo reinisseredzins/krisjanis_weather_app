@@ -84,6 +84,8 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.WeatherListV
         notifyDataSetChanged();
     }
 
+
+
     public void removeTodayAndTomorrow(java.util.List<List> newDataSet) {
         newDataSet.remove(0);
         newDataSet.remove(0);

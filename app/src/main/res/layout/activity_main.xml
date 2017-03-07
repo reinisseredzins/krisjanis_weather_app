@@ -62,7 +62,8 @@
                 android:layout_height="@dimen/default_menu_height"
                 android:gravity="center"
                 android:text="@string/current_location"
-                android:textSize="@dimen/default_menu_text" />
+                android:textSize="@dimen/default_menu_text"
+                android:background="?android:attr/selectableItemBackground"/>
 
             <TextView
                 android:id="@+id/menu_default"
@@ -70,54 +71,13 @@
                 android:layout_height="@dimen/default_menu_height"
                 android:gravity="center"
                 android:text="@string/default_city"
-                android:textSize="@dimen/default_menu_text" />
+                android:textSize="@dimen/default_menu_text"
+                android:background="?android:attr/selectableItemBackground"/>
 
-
-
-                <TextView
-                    android:id="@+id/city1"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/default_menu_height"
-                    android:gravity="center"
-                    android:text="test1"
-                    android:textSize="@dimen/default_menu_text"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/city2"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/default_menu_height"
-                    android:gravity="center"
-                    android:text="test2"
-                    android:textSize="@dimen/default_menu_text"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/city3"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/default_menu_height"
-                    android:gravity="center"
-                    android:text="test3"
-                    android:textSize="@dimen/default_menu_text"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/city4"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/default_menu_height"
-                    android:gravity="center"
-                    android:text="test4"
-                    android:textSize="@dimen/default_menu_text"
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/city5"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/default_menu_height"
-                    android:gravity="center"
-                    android:text="test5"
-                    android:textSize="@dimen/default_menu_text"
-                    android:visibility="gone"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/drawer_cities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
@@ -134,7 +94,7 @@
                         android:gravity="center"
                         android:text="@string/add_city"
                         android:textSize="@dimen/default_menu_text"
-                        android:background="#878787"
+                        android:background="?android:attr/selectableItemBackground"
                         android:layout_weight="1"/>
 
 
@@ -145,7 +105,7 @@
                     android:gravity="center"
                     android:text="@string/settings_title"
                     android:textSize="@dimen/default_menu_text"
-                    android:background="#515151"/>
+                    android:background="?android:attr/selectableItemBackground"/>
             </LinearLayout>
 
     </android.support.design.widget.NavigationView>

@@ -11,6 +11,8 @@ public class Constants {
 
     public static final String IMAGE_URL = "http://openweathermap.org/img/w/%1$s.png";
 
+    public static final Integer MAX_CITY_LIMIT = 6;
+
     public static String getImageUrl(String iconId) {
        return String.format(IMAGE_URL, iconId);
     }
