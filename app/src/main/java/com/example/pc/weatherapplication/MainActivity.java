@@ -1,7 +1,9 @@
 package com.example.pc.weatherapplication;
 
 import android.Manifest;
+import android.app.DialogFragment;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,13 +26,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.pc.weatherapplication.database.CityListDbHelper;
+import com.example.pc.weatherapplication.fragments.CityChooserDialogFragment;
 import com.example.pc.weatherapplication.fragments.DailyFragment;
 import com.example.pc.weatherapplication.fragments.NowFragment;
 import com.example.pc.weatherapplication.fragments.TomorrowFragment;
@@ -39,7 +41,7 @@ import com.example.pc.weatherapplication.utils.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentActivityInterface {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentActivityInterface, FragmentInterface {
 
     private DrawerLayout mDrawerLayout;
     private ViewPager viewPager;
@@ -64,6 +66,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        CityListDbHelper mDbHelper = new CityListDbHelper(this);
+        //mDbHelper.insertNewRow(new CityList(1, "name", "lon", "code", "lat"));
+      //  List<String> citySearchList = mDbHelper.getCity("Riga");
 
         menuCurrentLocation = (TextView) findViewById(R.id.menu_current_location);
         menuDefault = (TextView) findViewById(R.id.menu_default);
@@ -105,7 +111,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 if (mDrawerAdapter.getItemCount() <= Constants.MAX_CITY_LIMIT) {
-                    showCityChooserDialog();
+                    //showCityChooserDialog();
+
+                    FragmentTransaction ft = getFragmentManager().beginTransaction();
+                    Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+                    if (prev != null) {
+                        ft.remove(prev);
+                    }
+                    ft.addToBackStack(null);
+
+                    DialogFragment newFragment = new CityChooserDialogFragment();
+                    newFragment.show(ft, "dialog");
                 } else {
                     maxCitiesReachedDialog();
                 }
@@ -230,25 +246,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
-    public void showCityChooserDialog()   {
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        new AlertDialog.Builder(this)
-                .setTitle(R.string.create_city_dialog_title)
-                .setView(input)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mDrawerAdapter.addCity(input.getText().toString());
-                    }
-                })
-                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                }).show();
-    }
 
     public void maxCitiesReachedDialog()    {
         new AlertDialog.Builder(this)
@@ -259,5 +256,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     public void onClick(DialogInterface dialog, int whichButton) {
                         dialog.cancel();
                     }}).show();
+    }
+
+    @Override
+    public void onCityChosen(String chosenCity) {
+        if (mDrawerAdapter.getItemCount() <= Constants.MAX_CITY_LIMIT) {
+            mDrawerAdapter.addCity(chosenCity);
+        } else {
+            maxCitiesReachedDialog();
+        }
     }
 }

@@ -1,5 +1,5 @@
 package com.example.pc.weatherapplication;
 
 public interface FragmentInterface {
-    String getFragmentTag();
+    void onCityChosen(String chosenCity);
 }
