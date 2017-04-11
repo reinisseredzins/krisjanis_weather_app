@@ -63,6 +63,12 @@ public class CityChooserDialogFragment extends android.app.DialogFragment   {
                         TextView textView = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.search_dropdown_element, scrollView, false);
                         textView.setText(cityLists.get(b));
                         scrollView.addView(textView);
+                        textView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        });
                     }
                 }
 
