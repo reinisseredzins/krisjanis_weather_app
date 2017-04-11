@@ -3,6 +3,7 @@ package com.example.pc.weatherapplication.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.BaseTransientBottomBar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -43,14 +44,13 @@ public class CityChooserDialogFragment extends android.app.DialogFragment   {
         citySearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 scrollView.removeAllViews();
                 if (s.length() > 1) {
-                    List<String> cityLists = helper.searchForCity(s.toString());
+                    final List<CityList> cityLists = helper.searchForCity(s.toString());
                     Log.v("VVV", ""+ cityLists);
                     int citySize = cityLists.size();
                     int size;
@@ -60,13 +60,16 @@ public class CityChooserDialogFragment extends android.app.DialogFragment   {
                         size = citySize;
                     }
                     for (int b = 0; b  < size; b++)    {
-                        TextView textView = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.search_dropdown_element, scrollView, false);
-                        textView.setText(cityLists.get(b));
+                        final TextView textView = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.search_dropdown_element, scrollView, false);
+                        textView.setText(cityLists.get(b).getNm());
                         scrollView.addView(textView);
+
+                        textView.setTag(cityLists.get(b).getId());
                         textView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
+                                helper.addToFavorites(String.valueOf(v.getTag()));
+                                getFragmentManager().popBackStack();
                             }
                         });
                     }

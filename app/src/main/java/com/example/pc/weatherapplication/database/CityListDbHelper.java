@@ -51,7 +51,8 @@ public class CityListDbHelper extends SQLiteOpenHelper {
 
     }
 
-    public List<String> getCity()   {
+
+    public List<CityList> searchForCity(String city)   {
 
         String[] projection = {
                 CityListContract.CityEntry._ID,
@@ -60,52 +61,7 @@ public class CityListDbHelper extends SQLiteOpenHelper {
                 CityListContract.CityEntry.COLUMN_LON,
                 CityListContract.CityEntry.COLUMN_LAT,
                 CityListContract.CityEntry.COLUMN_CODE,
-
-
-        };
-
-        //String selection = CityListContract.CityEntry.COLUMN_NAME+ " LIKE ?";
-        //String[] selectionArgs = { '%' + city + '%' };
-
-        String selection = CityListContract.CityEntry.COLUMN_NAME+ " = ?";
-
-        Cursor cursor = getReadableDatabase().query(
-                CityListContract.CityEntry.TABLE_NAME,                      // The table to query
-                projection,                                                 // The columns to return
-                null,                                                  // The columns for the WHERE clause
-                null,                                                       // The values for the WHERE clause
-                null,                                                       // don't group the rows
-                null,                                                       // don't filter by row groups
-                null                                                        // The sort order
-        );
-
-        List<String> cityNamesList = new ArrayList<>();
-        while(cursor.moveToNext()) {
-            String itemId = cursor.getString(
-                    cursor.getColumnIndexOrThrow(CityListContract.CityEntry.COLUMN_NAME));
-            cityNamesList.add(itemId);
-        }
-
-        if (cityNamesList.size() > 0) {
-            //for (String city1: cityNamesList) {
-                //Log.v("VVV", ""+ city1);
-            //}
-        } else {
-            Log.v("VVV", "SQL is empty for this search");
-        }
-        cursor.close();
-        return cityNamesList;
-    }
-
-    public List<String> searchForCity(String city)   {
-
-        String[] projection = {
-                CityListContract.CityEntry._ID,
-                CityListContract.CityEntry.COLUMN_ID,
-                CityListContract.CityEntry.COLUMN_NAME,
-                CityListContract.CityEntry.COLUMN_LON,
-                CityListContract.CityEntry.COLUMN_LAT,
-                CityListContract.CityEntry.COLUMN_CODE,
+                CityListContract.CityEntry.IS_FAVORITE
 
 
         };
@@ -123,11 +79,9 @@ public class CityListDbHelper extends SQLiteOpenHelper {
                 null                                                        // The sort order
         );
 
-        List<String> cityNamesList = new ArrayList<>();
+        List<CityList> cityNamesList = new ArrayList<>();
         while(cursor.moveToNext()) {
-            String itemId = cursor.getString(
-                    cursor.getColumnIndexOrThrow(CityListContract.CityEntry.COLUMN_NAME));
-            cityNamesList.add(itemId);
+            cityNamesList.add(new CityList(cursor));
         }
 
         if (cityNamesList.size() > 0) {
@@ -137,5 +91,14 @@ public class CityListDbHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return cityNamesList;
+    }
+
+    public void addToFavorites(String cityId)   {
+
+        ContentValues values = new ContentValues();
+        values.put(CityListContract.CityEntry.IS_FAVORITE, "true");
+        getWritableDatabase().update(CityListContract.CityEntry.TABLE_NAME, values, CityListContract.CityEntry.COLUMN_ID + "= ?", new String[]{cityId});
+
+        Log.v("VVV", cityId);
     }
 }

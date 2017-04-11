@@ -2,7 +2,6 @@ package com.example.pc.weatherapplication.database;
 
 
 import android.provider.BaseColumns;
-import android.transition.CircularPropagation;
 
 public final class CityListContract {
 
@@ -18,6 +17,7 @@ public final class CityListContract {
         public static final String COLUMN_LON = "lon";
         public static final String COLUMN_LAT = "lat";
         public static final String COLUMN_CODE = "countryCode";
+        public static final String IS_FAVORITE = "isFavorite";
     }
 
     public static final String SQL_CREATE_ENTRIES =
@@ -27,7 +27,8 @@ public final class CityListContract {
                     CityEntry.COLUMN_NAME + " TEXT," +
                     CityEntry.COLUMN_LON + " TEXT," +
                     CityEntry.COLUMN_LAT + " TEXT," +
-                    CityEntry.COLUMN_CODE + " TEXT" +
+                    CityEntry.COLUMN_CODE + " TEXT," +
+                    CityEntry.IS_FAVORITE + " BOOLEAN " +
                     ")";
 
     public static final String SQL_DELETE_ENTRIES =

@@ -1,6 +1,9 @@
 
 package com.example.pc.weatherapplication;
 
+import android.database.Cursor;
+
+import com.example.pc.weatherapplication.database.CityListContract;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -21,13 +24,26 @@ public class CityList {
     @SerializedName("countryCode")
     @Expose
     private String countryCode;
+    @SerializedName("isFavorite")
+    @Expose
+    private String isFavorite;
 
-    public CityList(Integer id, String nm, String lon, String countryCode, String lat) {
+    public CityList(Integer id, String nm, String lon, String countryCode, String lat, String isFavorite) {
         this.id = id;
         this.nm = nm;
         this.lon = lon;
         this.countryCode = countryCode;
         this.lat = lat;
+        this.isFavorite = isFavorite;
+    }
+
+    public CityList(Cursor cursor) {
+        id = cursor.getInt(cursor.getColumnIndexOrThrow(CityListContract.CityEntry.COLUMN_ID));
+        nm = cursor.getString(cursor.getColumnIndexOrThrow(CityListContract.CityEntry.COLUMN_NAME));
+        lon = cursor.getString(cursor.getColumnIndexOrThrow(CityListContract.CityEntry.COLUMN_LON));
+        lat = cursor.getString(cursor.getColumnIndexOrThrow(CityListContract.CityEntry.COLUMN_LAT));
+        countryCode = cursor.getString(cursor.getColumnIndexOrThrow(CityListContract.CityEntry.COLUMN_CODE));
+        isFavorite = cursor.getString(cursor.getColumnIndexOrThrow(CityListContract.CityEntry.IS_FAVORITE));
     }
 
     public Integer getId() {
@@ -68,6 +84,14 @@ public class CityList {
 
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
+    }
+
+    public String getIsFavorite() {
+        return countryCode;
+    }
+
+    public void setIsFavorite(String isFavorite) {
+        this.isFavorite = isFavorite;
     }
 
 }
