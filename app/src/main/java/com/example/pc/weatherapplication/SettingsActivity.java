@@ -16,8 +16,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-public class SettingsActivity extends AppCompatPreferenceActivity
-        implements Preference.OnPreferenceChangeListener {
+public class SettingsActivity extends AppCompatPreferenceActivity implements Preference.OnPreferenceChangeListener {
 
 
     @Override

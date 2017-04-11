@@ -96,4 +96,46 @@ public class CityListDbHelper extends SQLiteOpenHelper {
         cursor.close();
         return cityNamesList;
     }
+
+    public List<String> searchForCity(String city)   {
+
+        String[] projection = {
+                CityListContract.CityEntry._ID,
+                CityListContract.CityEntry.COLUMN_ID,
+                CityListContract.CityEntry.COLUMN_NAME,
+                CityListContract.CityEntry.COLUMN_LON,
+                CityListContract.CityEntry.COLUMN_LAT,
+                CityListContract.CityEntry.COLUMN_CODE,
+
+
+        };
+
+        String selection = CityListContract.CityEntry.COLUMN_NAME+ " LIKE ?";
+        String[] selectionArgs = { city + '%' };
+
+        Cursor cursor = getReadableDatabase().query(
+                CityListContract.CityEntry.TABLE_NAME,                      // The table to query
+                projection,                                                 // The columns to return
+                selection,                                                  // The columns for the WHERE clause
+                selectionArgs,                                                       // The values for the WHERE clause
+                null,                                                       // don't group the rows
+                null,                                                       // don't filter by row groups
+                null                                                        // The sort order
+        );
+
+        List<String> cityNamesList = new ArrayList<>();
+        while(cursor.moveToNext()) {
+            String itemId = cursor.getString(
+                    cursor.getColumnIndexOrThrow(CityListContract.CityEntry.COLUMN_NAME));
+            cityNamesList.add(itemId);
+        }
+
+        if (cityNamesList.size() > 0) {
+
+        } else {
+            Log.v("VVV", "SQL is empty for this search");
+        }
+        cursor.close();
+        return cityNamesList;
+    }
 }

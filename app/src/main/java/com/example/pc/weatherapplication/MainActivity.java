@@ -37,7 +37,12 @@ import com.example.pc.weatherapplication.fragments.DailyFragment;
 import com.example.pc.weatherapplication.fragments.NowFragment;
 import com.example.pc.weatherapplication.fragments.TomorrowFragment;
 import com.example.pc.weatherapplication.utils.Constants;
+import com.example.pc.weatherapplication.utils.PreferenceUtils;
+import com.example.pc.weatherapplication.utils.Utils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -156,9 +161,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tabLayout.addTab(tabLayout.newTab().setText("Next 10 days"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -190,8 +193,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
     }
 
 
