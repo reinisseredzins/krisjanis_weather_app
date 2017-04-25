@@ -69,6 +69,7 @@ public class CityChooserDialogFragment extends android.app.DialogFragment   {
                             @Override
                             public void onClick(View v) {
                                 helper.addToFavorites(String.valueOf(v.getTag()));
+                                onCityChosenListener.onCityChosen();
                                 getFragmentManager().popBackStack();
                             }
                         });

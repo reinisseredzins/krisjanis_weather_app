@@ -10,11 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.pc.weatherapplication.database.CityListDbHelper;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.CityViewHolder> {
 
-    java.util.List<String> mCityList = new ArrayList<>();
+    CityListDbHelper helper;
+
+    java.util.List<CityList> mCityList = new ArrayList<>();
+
+    public DrawerAdapter(Context context){
+        helper = new CityListDbHelper(context);
+    }
 
     @Override
     public CityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -24,8 +33,8 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.CityViewHo
 
     @Override
     public void onBindViewHolder(final CityViewHolder holder,final int position) {
-        String city = mCityList.get(position);
-        holder.mCity.setText(city);
+        CityList city = mCityList.get(position);
+        holder.mCity.setText(city.getNm());
 
         holder.mRootView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -47,19 +56,16 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.CityViewHo
         }
     }
 
-    public void setCitySet(java.util.List<String> cityList) {
+    public void setCitySet(java.util.List<CityList> cityList) {
         mCityList = cityList;
         notifyDataSetChanged();
     }
 
-    public void addCity(String specificCity) {
-        mCityList.add(specificCity);
-        notifyDataSetChanged();
-    }
 
     public void removeCity(int position)    {
         mCityList.remove(position);
         notifyDataSetChanged();
+        helper.removeFromFavorites(String.valueOf(mCityList.get(position).getId()));
     }
 
     @Override

@@ -73,15 +73,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         CityListDbHelper mDbHelper = new CityListDbHelper(this);
-        //mDbHelper.insertNewRow(new CityList(1, "name", "lon", "code", "lat"));
-      //  List<String> citySearchList = mDbHelper.getCity("Riga");
 
         menuCurrentLocation = (TextView) findViewById(R.id.menu_current_location);
         menuDefault = (TextView) findViewById(R.id.menu_default);
         menuSettings = (TextView) findViewById(R.id.menu_settings);
         menuAddCity = (TextView) findViewById(R.id.city_add);
 
-        mDrawerAdapter = new DrawerAdapter();
+        mDrawerAdapter = new DrawerAdapter(this);
+
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.drawer_cities);
 
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION};
@@ -97,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         final List citiesList = new ArrayList();
         mDrawerAdapter.setCitySet(citiesList);
+
+        onCityChosen();
 
         menuCurrentLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -260,9 +261,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onCityChosen(String chosenCity) {
+    public void onCityChosen() {
         if (mDrawerAdapter.getItemCount() <= Constants.MAX_CITY_LIMIT) {
-            mDrawerAdapter.addCity(chosenCity);
+            CityListDbHelper helper = new CityListDbHelper(this);
+            final List<CityList> cityLists = helper.searchForFavorites();
+            mDrawerAdapter.setCitySet(cityLists);
         } else {
             maxCitiesReachedDialog();
         }

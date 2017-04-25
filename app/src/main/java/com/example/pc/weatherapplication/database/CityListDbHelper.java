@@ -101,4 +101,54 @@ public class CityListDbHelper extends SQLiteOpenHelper {
 
         Log.v("VVV", cityId);
     }
+
+    public void removeFromFavorites(String cityId)   {
+
+        ContentValues values = new ContentValues();
+        values.put(CityListContract.CityEntry.IS_FAVORITE, "false");
+        getWritableDatabase().update(CityListContract.CityEntry.TABLE_NAME, values, CityListContract.CityEntry.COLUMN_ID + "= ?", new String[]{cityId});
+
+        Log.v("VVV", cityId);
+    }
+
+    public List<CityList> searchForFavorites()   {
+
+        String[] projection = {
+                CityListContract.CityEntry._ID,
+                CityListContract.CityEntry.COLUMN_ID,
+                CityListContract.CityEntry.COLUMN_NAME,
+                CityListContract.CityEntry.COLUMN_LON,
+                CityListContract.CityEntry.COLUMN_LAT,
+                CityListContract.CityEntry.COLUMN_CODE,
+                CityListContract.CityEntry.IS_FAVORITE
+
+
+        };
+
+        String selection = CityListContract.CityEntry.IS_FAVORITE + "= ?";
+        String[] selectionArgs = { "true" };
+
+        Cursor cursor = getReadableDatabase().query(
+                CityListContract.CityEntry.TABLE_NAME,                      // The table to query
+                projection,                                                 // The columns to return
+                selection,                                                  // The columns for the WHERE clause
+                selectionArgs,                                              // The values for the WHERE clause
+                null,                                                       // don't group the rows
+                null,                                                       // don't filter by row groups
+                null                                                        // The sort order
+        );
+
+        List<CityList> cityNamesList = new ArrayList<>();
+        while(cursor.moveToNext()) {
+            cityNamesList.add(new CityList(cursor));
+        }
+
+        if (cityNamesList.size() > 0) {
+
+        } else {
+            Log.v("VVV", "SQL is empty for this search");
+        }
+        cursor.close();
+        return cityNamesList;
+    }
 }
