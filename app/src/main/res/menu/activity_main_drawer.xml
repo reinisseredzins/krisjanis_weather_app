@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:title="@string/sections">
 
-            <item
-                android:id="@+id/nav_current_weather"
-                android:title="@string/public_weather"/>
-            <item
+        <item
+            android:id="@+id/current_location"
+            android:title="@string/current_location"/>
+        <item
                 android:id="@+id/nav_settings"
                 android:title="@string/settings_title"/>
-            <item
-                android:id="@+id/nav_test"
-                android:title="@string/test_title"/>
-
     </item>
 
 </menu>

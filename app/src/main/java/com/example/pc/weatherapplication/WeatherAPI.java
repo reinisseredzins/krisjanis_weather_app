@@ -1,39 +1,34 @@
 package com.example.pc.weatherapplication;
 
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
-import com.example.pc.weatherapplication.JSON.Forecast;
+import com.example.pc.weatherapplication.weather_daily.WeatherDaily;
+import com.example.pc.weatherapplication.weather_details.WeatherDetails;
+import com.example.pc.weatherapplication.weather_now.WeatherNow;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-/**
- * Created by Krisjanis on 04/11/2016.
- */
 
 public interface WeatherAPI {
 
-    @GET("data/2.5/box/city")
-    Call<Forecast> fetchWeatherForecast(
-            @Query("bbox") String coordinates,
-            @Query("cluster") String shouldUseCluster,
-            @Query("appid") String appid,
+    @GET("data/2.5/weather")
+    Call<WeatherNow> fetchWeatherForecast(
+            @Query("q") String city,
+            @Query("APPID") String appid,
             @Query("units") String units
-            );
+    );
 
     @GET("data/2.5/forecast")
-    Call<com.example.pc.weatherapplication.JSON_Details.Example> fetchDetails(
-            @Query("id") String id,
+    Call<WeatherDetails> fetchDetails(
+            @Query("q") String city,
             @Query("appid") String appid,
             @Query("units") String units
 
     );
 
     @GET("data/2.5/forecast/daily")
-    Call<com.example.pc.weatherapplication.JSON_Daily.Example> fetchDaily(
-            @Query("q") String daily,
+    Call<WeatherDaily> fetchDaily(
+            @Query("q") String city,
             @Query("units") String units,
             @Query("cnt") Integer cnt,
             @Query("APPID") String appid
