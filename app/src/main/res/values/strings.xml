@@ -33,6 +33,9 @@
     <string name="max_cities_reached_dialog_text">You have added maximum count of cities available.</string>
     <string name="add_city_fragment_title">Please insert city</string>
     <string name="city_remove_dialog_text_error">Can\'t remove last city.</string>
+    <string name="choose_temp_type">Choose your temperature type.</string>
+    <string name="celsius">Celsius °C</string>
+    <string name="fahrenheit">Fahrenheit °F</string>
 
 
 </resources>

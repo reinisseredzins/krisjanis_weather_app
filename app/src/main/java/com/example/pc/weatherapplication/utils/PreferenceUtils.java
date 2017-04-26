@@ -36,6 +36,12 @@ public class PreferenceUtils {
         return DEFAULT_TYPE;
     }
 
+    public static void setUnitTypes(Context context, String type) {
+        if (context != null && context.getPackageName() != null)  {
+            PreferenceManager.getDefaultSharedPreferences(context).edit().putString(PREFERRED_TEMPERATURE_TYPE_KEY, type);
+        }
+    }
+
     public static Boolean isDatabasePopulated(Context context)  {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(PREFERRED_BOOLEAN_KEY, false);
     }

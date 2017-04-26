@@ -16,7 +16,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class WeatherApplication extends Application {
+public class WeatherApplication extends Application implements FragmentInterface {
     @Override
     public void onCreate() {
         super.onCreate();
@@ -58,4 +58,5 @@ public class WeatherApplication extends Application {
     }
 
 
+    
 }
