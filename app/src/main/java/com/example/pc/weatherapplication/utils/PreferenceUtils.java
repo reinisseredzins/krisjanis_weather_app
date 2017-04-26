@@ -8,6 +8,7 @@ public class PreferenceUtils {
 
     private static final String PREFERRED_CITY_KEY = "pref_city";
     private static final String DEFAULT_CITY = "riga";
+    private static final String USED_CITY = "";
 
     private static final String PREFERRED_TEMPERATURE_TYPE_KEY = "pref_temp_type";
     private static final String DEFAULT_TYPE = "metric";
@@ -20,6 +21,12 @@ public class PreferenceUtils {
             return PreferenceManager.getDefaultSharedPreferences(context).getString(PREFERRED_CITY_KEY, DEFAULT_CITY);
         }
         return DEFAULT_TYPE;
+    }
+
+    public static void setCity(Context context, String city)     {
+        if (context != null && context.getPackageName() != null) {
+            PreferenceManager.getDefaultSharedPreferences(context).edit().putString(PREFERRED_CITY_KEY, city).commit();
+        }
     }
 
     public static String getUnitTypes(Context context) {
@@ -35,6 +42,5 @@ public class PreferenceUtils {
     public static void setDatabasePopulated(Context context, boolean isPopulated)  {
        PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(PREFERRED_BOOLEAN_KEY, isPopulated).apply();
     }
-
 
 }

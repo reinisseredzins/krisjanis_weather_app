@@ -11,14 +11,15 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="@string/add_city_fragment_title"
-        android:textSize="20sp"/>
+        android:textSize="30sp"
+        android:layout_gravity="center|top" />
 
     <EditText
         android:id="@+id/add_city_search"
         android:layout_width="150dp"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal"
-        android:textSize="15sp"
+        android:textSize="25sp"
         android:inputType="textAutoComplete"
         android:imeOptions="actionDone"/>
 

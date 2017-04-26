@@ -46,17 +46,24 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentActivityInterface, FragmentInterface {
 
-    private DrawerLayout mDrawerLayout;
-    private ViewPager viewPager;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
+    @BindView(R.id.viewpager)
+    ViewPager viewPager;
     private boolean snackbarisseen;
 
     private DrawerAdapter mDrawerAdapter;
 
+    @BindView(R.id.menu_current_location)
     TextView menuCurrentLocation;
-    TextView menuDefault;
+    @BindView(R.id.menu_settings)
     TextView menuSettings;
+    @BindView(R.id.city_add)
     TextView menuAddCity;
 
     Fragment dailyFragment = new DailyFragment();
@@ -71,13 +78,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         CityListDbHelper mDbHelper = new CityListDbHelper(this);
-
-        menuCurrentLocation = (TextView) findViewById(R.id.menu_current_location);
-        menuDefault = (TextView) findViewById(R.id.menu_default);
-        menuSettings = (TextView) findViewById(R.id.menu_settings);
-        menuAddCity = (TextView) findViewById(R.id.city_add);
 
         mDrawerAdapter = new DrawerAdapter(this);
 
@@ -100,13 +103,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         onCityChosen();
 
         menuCurrentLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        menuDefault.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -142,8 +138,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setOffscreenPageLimit(2);
 
         final List<Fragment> fragmentList = new ArrayList<>();
@@ -182,8 +176,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, myToolbar, R.string.open_drawer, R.string.close_drawer);
         mDrawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
@@ -269,5 +261,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             maxCitiesReachedDialog();
         }
+    }
+
+    public void reloadData(String title)    {
+        dailyFragmentCast.reloadData();
+        tomorrowFragmentCast.reloadData();
+        nowFragmentCast.reloadData();
+        setTitle(title);
+        mDrawerLayout.closeDrawers();
     }
 }

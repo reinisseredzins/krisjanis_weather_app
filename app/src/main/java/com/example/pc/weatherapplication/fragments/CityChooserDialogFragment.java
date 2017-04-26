@@ -60,12 +60,15 @@ public class CityChooserDialogFragment extends android.app.DialogFragment   {
                         size = citySize;
                     }
                     for (int b = 0; b  < size; b++)    {
-                        final TextView textView = (TextView) LayoutInflater.from(getActivity()).inflate(R.layout.search_dropdown_element, scrollView, false);
-                        textView.setText(cityLists.get(b).getNm());
-                        scrollView.addView(textView);
+                        final View dropdownView = LayoutInflater.from(getActivity()).inflate(R.layout.search_dropdown_element, scrollView, false);
+                        final TextView city = (TextView) dropdownView.findViewById(R.id.search_dropdown);
+                        final TextView country = (TextView) dropdownView.findViewById(R.id.search_dropdown_country);
+                        city.setText(cityLists.get(b).getNm());
+                        country.setText(cityLists.get(b).getCountryCode());
+                        scrollView.addView(dropdownView);
 
-                        textView.setTag(cityLists.get(b).getId());
-                        textView.setOnClickListener(new View.OnClickListener() {
+                        dropdownView.setTag(cityLists.get(b).getId());
+                        dropdownView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 helper.addToFavorites(String.valueOf(v.getTag()));

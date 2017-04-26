@@ -65,15 +65,6 @@
                 android:textSize="@dimen/default_menu_text"
                 android:background="?android:attr/selectableItemBackground"/>
 
-            <TextView
-                android:id="@+id/menu_default"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/default_menu_height"
-                android:gravity="center"
-                android:text="@string/default_city"
-                android:textSize="@dimen/default_menu_text"
-                android:background="?android:attr/selectableItemBackground"/>
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/drawer_cities"
                 android:layout_width="match_parent"

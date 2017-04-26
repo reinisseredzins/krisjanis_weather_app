@@ -24,7 +24,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Pre
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences_layout);
 
-        bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_city)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_temp_type)));
         initToolbar();
     }

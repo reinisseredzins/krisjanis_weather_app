@@ -31,6 +31,7 @@
     <string name="city_remove_dialog_text">Do you really want to remove this city?</string>
     <string name="max_cities_reached_dialog_text">You have added maximum count of cities available.</string>
     <string name="add_city_fragment_title">Please insert city</string>
+    <string name="city_remove_dialog_text_error">Can\'t remove last city.</string>
 
 
 </resources>

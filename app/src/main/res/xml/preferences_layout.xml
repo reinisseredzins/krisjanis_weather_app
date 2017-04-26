@@ -8,11 +8,5 @@
         android:dialogTitle="@string/temp_type_dialog_value"
         android:title="@string/temp_type_dialog_value"
         />
-    <EditTextPreference
-        android:key="@string/pref_city"
-        android:defaultValue="@string/city_type_default_value"
-        android:dialogTitle="@string/city_type_dialog_value"
-        android:title="@string/city_type_dialog_value"
-        />
 
 </PreferenceScreen>
