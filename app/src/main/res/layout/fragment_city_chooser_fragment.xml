@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    tools:context="com.example.pc.weatherapplication.fragments.CityChooserDialogFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/add_city_fragment_title"
+        android:textSize="30sp"
+        android:layout_gravity="center|top" />
+
+    <EditText
+        android:id="@+id/add_city_search_fragment"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="25sp"
+        android:inputType="textAutoComplete"
+        android:imeOptions="actionDone"/>
+
+    <ScrollView
+        android:id="@+id/city_chooser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/scrollView_linear_layout_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"/>
+
+    </ScrollView>
+
+</LinearLayout>

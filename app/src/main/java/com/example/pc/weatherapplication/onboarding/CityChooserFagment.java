@@ -1,8 +1,9 @@
-package com.example.pc.weatherapplication.fragments;
+package com.example.pc.weatherapplication.onboarding;
 
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -20,7 +21,9 @@ import com.example.pc.weatherapplication.database.CityListDbHelper;
 
 import java.util.List;
 
-public class CityChooserDialogFragment extends android.app.DialogFragment   {
+
+public class CityChooserFagment extends android.app.Fragment {
+
 
     FragmentInterface onCityChosenListener;
 
@@ -28,8 +31,8 @@ public class CityChooserDialogFragment extends android.app.DialogFragment   {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_city_chooser_fragment, container, false);
-        final EditText citySearch = (EditText) view.findViewById(R.id.add_city_search);
-        final LinearLayout scrollView = (LinearLayout) view.findViewById(R.id.scrollView_linear_layout);
+        final EditText citySearch = (EditText) view.findViewById(R.id.add_city_search_fragment);
+        final LinearLayout scrollView = (LinearLayout) view.findViewById(R.id.scrollView_linear_layout_fragment);
         final CityListDbHelper helper = new CityListDbHelper(getActivity());
 
         citySearch.addTextChangedListener(new TextWatcher() {
@@ -63,8 +66,7 @@ public class CityChooserDialogFragment extends android.app.DialogFragment   {
                             @Override
                             public void onClick(View v) {
                                 helper.addToFavorites(String.valueOf(v.getTag()));
-                                onCityChosenListener.onCityChosen();
-                                getFragmentManager().popBackStack();
+                                getFragmentManager().beginTransaction().replace(R.id.boarding_frame, new TemperatureTypesChooserFragment()).commit();
                             }
                         });
                     }
@@ -81,13 +83,4 @@ public class CityChooserDialogFragment extends android.app.DialogFragment   {
         return view;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            onCityChosenListener = (FragmentInterface) context;
-        } catch (ClassCastException e)  {
-            throw new ClassCastException(context.toString() + "must implement onAttach");
-        }
-    }
 }

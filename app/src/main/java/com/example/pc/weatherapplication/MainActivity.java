@@ -37,12 +37,7 @@ import com.example.pc.weatherapplication.fragments.DailyFragment;
 import com.example.pc.weatherapplication.fragments.NowFragment;
 import com.example.pc.weatherapplication.fragments.TomorrowFragment;
 import com.example.pc.weatherapplication.utils.Constants;
-import com.example.pc.weatherapplication.utils.PreferenceUtils;
-import com.example.pc.weatherapplication.utils.Utils;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -241,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void maxCitiesReachedDialog()    {
+    public void maxCitiesReachedDialog() {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.dialog_warning)
                 .setMessage(R.string.max_cities_reached_dialog_text)
@@ -249,7 +244,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         dialog.cancel();
-                    }}).show();
+                    }
+                }).show();
     }
 
     @Override
@@ -263,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void reloadData(String title)    {
+    public void reloadData(String title) {
         dailyFragmentCast.reloadData();
         tomorrowFragmentCast.reloadData();
         nowFragmentCast.reloadData();

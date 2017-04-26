@@ -39,8 +39,17 @@ public class PreferenceUtils {
     public static Boolean isDatabasePopulated(Context context)  {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(PREFERRED_BOOLEAN_KEY, false);
     }
+
     public static void setDatabasePopulated(Context context, boolean isPopulated)  {
        PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(PREFERRED_BOOLEAN_KEY, isPopulated).apply();
+    }
+
+    public static Boolean isBoardingCompleted(Context context)  {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(PREFERRED_BOOLEAN_KEY, false);
+    }
+
+    public static void isBoardingCompleted(Context context, boolean isCompleted)  {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(PREFERRED_BOOLEAN_KEY, isCompleted).apply();
     }
 
 }
