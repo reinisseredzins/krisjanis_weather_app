@@ -18,6 +18,7 @@ import com.example.pc.weatherapplication.CityList;
 import com.example.pc.weatherapplication.FragmentInterface;
 import com.example.pc.weatherapplication.R;
 import com.example.pc.weatherapplication.database.CityListDbHelper;
+import com.example.pc.weatherapplication.utils.PreferenceUtils;
 
 import java.util.List;
 
@@ -62,10 +63,12 @@ public class CityChooserFagment extends android.app.Fragment {
                         scrollView.addView(dropdownView);
 
                         dropdownView.setTag(cityLists.get(b).getId());
+                        final int i = b;
                         dropdownView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 helper.addToFavorites(String.valueOf(v.getTag()));
+                                PreferenceUtils.setCity(v.getContext(), cityLists.get(i).getNm());
                                 getFragmentManager().beginTransaction().replace(R.id.boarding_frame, new TemperatureTypesChooserFragment()).commit();
                             }
                         });

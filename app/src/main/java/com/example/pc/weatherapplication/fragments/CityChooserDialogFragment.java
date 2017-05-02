@@ -27,7 +27,7 @@ public class CityChooserDialogFragment extends android.app.DialogFragment   {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_city_chooser_fragment, container, false);
+        final View view = inflater.inflate(R.layout.fragment_city_chooser_dialog, container, false);
         final EditText citySearch = (EditText) view.findViewById(R.id.add_city_search);
         final LinearLayout scrollView = (LinearLayout) view.findViewById(R.id.scrollView_linear_layout);
         final CityListDbHelper helper = new CityListDbHelper(getActivity());

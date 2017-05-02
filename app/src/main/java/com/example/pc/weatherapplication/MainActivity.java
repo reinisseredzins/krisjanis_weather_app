@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         final List citiesList = new ArrayList();
+        Log.v("LLL", "cities" + new CityListDbHelper(this).searchForFavorites());
         mDrawerAdapter.setCitySet(citiesList);
 
         onCityChosen();

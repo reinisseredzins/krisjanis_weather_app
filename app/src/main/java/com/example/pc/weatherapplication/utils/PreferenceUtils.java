@@ -25,7 +25,7 @@ public class PreferenceUtils {
 
     public static void setCity(Context context, String city)     {
         if (context != null && context.getPackageName() != null) {
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putString(PREFERRED_CITY_KEY, city).commit();
+            PreferenceManager.getDefaultSharedPreferences(context).edit().putString(PREFERRED_CITY_KEY, city).apply();
         }
     }
 
@@ -38,7 +38,7 @@ public class PreferenceUtils {
 
     public static void setUnitTypes(Context context, String type) {
         if (context != null && context.getPackageName() != null)  {
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putString(PREFERRED_TEMPERATURE_TYPE_KEY, type);
+            PreferenceManager.getDefaultSharedPreferences(context).edit().putString(PREFERRED_TEMPERATURE_TYPE_KEY, type).apply();
         }
     }
 

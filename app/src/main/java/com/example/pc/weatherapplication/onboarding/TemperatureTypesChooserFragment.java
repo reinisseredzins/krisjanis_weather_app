@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.pc.weatherapplication.FragmentInterface;
 import com.example.pc.weatherapplication.MainActivity;
 import com.example.pc.weatherapplication.R;
 import com.example.pc.weatherapplication.utils.PreferenceUtils;
@@ -20,6 +21,8 @@ import butterknife.ButterKnife;
 
 
 public class TemperatureTypesChooserFragment extends android.app.Fragment {
+
+    FragmentInterface onCityChosenListener;
 
     @BindView(R.id.celsius_choose)
     TextView celsius;
@@ -39,9 +42,9 @@ public class TemperatureTypesChooserFragment extends android.app.Fragment {
             public void onClick(View v) {
                 PreferenceUtils.setUnitTypes(v.getContext(),"metric");
                 PreferenceUtils.isBoardingCompleted(v.getContext(), true);
-
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                getActivity().finish();
             }
         });
 
@@ -50,9 +53,9 @@ public class TemperatureTypesChooserFragment extends android.app.Fragment {
             public void onClick(View v) {
                 PreferenceUtils.setUnitTypes(v.getContext(),"imperial");
                 PreferenceUtils.isBoardingCompleted(v.getContext(), true);
-
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                getActivity().finish();
             }
         });
 

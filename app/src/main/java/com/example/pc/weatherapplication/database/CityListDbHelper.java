@@ -46,7 +46,7 @@ public class CityListDbHelper extends SQLiteOpenHelper {
         values.put(CityListContract.CityEntry.COLUMN_LAT, cityList.getLat());
 
         long newRowId = getWritableDatabase().insert(CityListContract.CityEntry.TABLE_NAME, null, values);
-        Log.v("VVV", "" +newRowId);
+        //Log.v("VVV", "" +newRowId);
         return newRowId;
 
     }
