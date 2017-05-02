@@ -1,11 +1,9 @@
 
 package com.example.pc.weatherapplication.weather_details;
 
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@Generated("org.jsonschema2pojo")
 public class City {
 
     @SerializedName("id")
@@ -134,5 +132,4 @@ public class City {
     public void setSys(Sys sys) {
         this.sys = sys;
     }
-
 }

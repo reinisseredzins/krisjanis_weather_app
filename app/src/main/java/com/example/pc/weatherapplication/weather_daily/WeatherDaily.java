@@ -1,6 +1,7 @@
 
 package com.example.pc.weatherapplication.weather_daily;
 
+import com.example.pc.weatherapplication.models.weather.City;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

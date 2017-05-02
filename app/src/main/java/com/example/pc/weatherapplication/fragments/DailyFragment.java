@@ -1,15 +1,9 @@
 package com.example.pc.weatherapplication.fragments;
 
 
-import android.Manifest;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.v13.app.FragmentCompat;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,11 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.pc.weatherapplication.ActivityFragmentInterface;
 import com.example.pc.weatherapplication.FragmentActivityInterface;
-import com.example.pc.weatherapplication.MainActivity;
 import com.example.pc.weatherapplication.R;
 import com.example.pc.weatherapplication.WeatherService;
 import com.example.pc.weatherapplication.adapters.DailyAdapter;
@@ -106,7 +98,7 @@ public class DailyFragment extends Fragment implements Callback<WeatherDaily>, S
 
         mSwipeRefreshLayout.setRefreshing(false);
         if (fragmentActivityInterface != null) {
-            fragmentActivityInterface.showofflinesnackbar();
+            fragmentActivityInterface.displayOfflineSnackBar();
 
         }
 
@@ -117,7 +109,7 @@ public class DailyFragment extends Fragment implements Callback<WeatherDaily>, S
 
     public void reloadData() {
         String unitTypes = PreferenceUtils.getUnitTypes(getActivity());
-        String city = PreferenceUtils.getCityTypes(getActivity());
+        String city = PreferenceUtils.getSelectedCity(getActivity());
         WeatherService.getDaily(this, city,  unitTypes);
     }
 

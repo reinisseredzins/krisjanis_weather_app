@@ -1,5 +1,6 @@
 
-package com.example.pc.weatherapplication.weather_daily;
+package com.example.pc.weatherapplication.models.weather;
+
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -21,6 +22,9 @@ public class City {
     @SerializedName("population")
     @Expose
     private Integer population;
+    @SerializedName("sys")
+    @Expose
+    private Sys sys;
 
     /**
      * 
@@ -112,4 +116,21 @@ public class City {
         this.population = population;
     }
 
+    /**
+     *
+     * @return
+     *     The sys
+     */
+    public Sys getSys() {
+        return sys;
+    }
+
+    /**
+     *
+     * @param sys
+     *     The sys
+     */
+    public void setSys(Sys sys) {
+        this.sys = sys;
+    }
 }

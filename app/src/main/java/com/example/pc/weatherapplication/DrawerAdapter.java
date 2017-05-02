@@ -1,16 +1,13 @@
 package com.example.pc.weatherapplication;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.text.style.BackgroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +16,7 @@ import android.widget.TextView;
 import com.example.pc.weatherapplication.database.CityListDbHelper;
 import com.example.pc.weatherapplication.utils.PreferenceUtils;
 
-import java.lang.ref.Reference;
-import java.lang.reflect.Member;
 import java.util.ArrayList;
-import java.util.List;
 
 public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.CityViewHolder> {
 
@@ -69,7 +63,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.CityViewHo
         holder.mRootView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PreferenceUtils.setCity(holder.mRootView.getContext(), city.getNm());
+                PreferenceUtils.setSelectedCity(holder.mRootView.getContext(), city.getNm());
                 currentlySelectedCity = holder.getAdapterPosition();
                 mContext.reloadData(city.getNm());
                 notifyDataSetChanged();
@@ -91,7 +85,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.CityViewHo
     String selectedCity;
 
     public void setCitySet(java.util.List<CityList> cityList) {
-        selectedCity = PreferenceUtils.getCityTypes(mContext);
+        selectedCity = PreferenceUtils.getSelectedCity(mContext);
         for(int i=0; i<cityList.size(); i++ )   {
             if(selectedCity.equalsIgnoreCase(cityList.get(i).getNm()))  {
                 currentlySelectedCity = i;

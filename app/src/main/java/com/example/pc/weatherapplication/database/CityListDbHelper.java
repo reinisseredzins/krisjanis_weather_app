@@ -46,11 +46,8 @@ public class CityListDbHelper extends SQLiteOpenHelper {
         values.put(CityListContract.CityEntry.COLUMN_LAT, cityList.getLat());
 
         long newRowId = getWritableDatabase().insert(CityListContract.CityEntry.TABLE_NAME, null, values);
-        //Log.v("VVV", "" +newRowId);
         return newRowId;
-
     }
-
 
     public List<CityList> searchForCity(String city)   {
 
@@ -62,8 +59,6 @@ public class CityListDbHelper extends SQLiteOpenHelper {
                 CityListContract.CityEntry.COLUMN_LAT,
                 CityListContract.CityEntry.COLUMN_CODE,
                 CityListContract.CityEntry.IS_FAVORITE
-
-
         };
 
         String selection = CityListContract.CityEntry.COLUMN_NAME+ " LIKE ?";
@@ -83,12 +78,6 @@ public class CityListDbHelper extends SQLiteOpenHelper {
         while(cursor.moveToNext()) {
             cityNamesList.add(new CityList(cursor));
         }
-
-        if (cityNamesList.size() > 0) {
-
-        } else {
-            Log.v("VVV", "SQL is empty for this search");
-        }
         cursor.close();
         return cityNamesList;
     }
@@ -98,8 +87,6 @@ public class CityListDbHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(CityListContract.CityEntry.IS_FAVORITE, "true");
         getWritableDatabase().update(CityListContract.CityEntry.TABLE_NAME, values, CityListContract.CityEntry.COLUMN_ID + "= ?", new String[]{cityId});
-
-        Log.v("VVV", cityId);
     }
 
     public void removeFromFavorites(String cityId)   {
@@ -107,8 +94,6 @@ public class CityListDbHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(CityListContract.CityEntry.IS_FAVORITE, "false");
         getWritableDatabase().update(CityListContract.CityEntry.TABLE_NAME, values, CityListContract.CityEntry.COLUMN_ID + "= ?", new String[]{cityId});
-
-        Log.v("VVV", cityId);
     }
 
     public List<CityList> searchForFavorites()   {
@@ -121,8 +106,6 @@ public class CityListDbHelper extends SQLiteOpenHelper {
                 CityListContract.CityEntry.COLUMN_LAT,
                 CityListContract.CityEntry.COLUMN_CODE,
                 CityListContract.CityEntry.IS_FAVORITE
-
-
         };
 
         String selection = CityListContract.CityEntry.IS_FAVORITE + "= ?";
@@ -143,11 +126,6 @@ public class CityListDbHelper extends SQLiteOpenHelper {
             cityNamesList.add(new CityList(cursor));
         }
 
-        if (cityNamesList.size() > 0) {
-
-        } else {
-            Log.v("VVV", "SQL is empty for this search");
-        }
         cursor.close();
         return cityNamesList;
     }

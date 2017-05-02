@@ -20,29 +20,35 @@ import com.example.pc.weatherapplication.database.CityListDbHelper;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class CityChooserDialogFragment extends android.app.DialogFragment   {
 
     FragmentInterface onCityChosenListener;
+
+    @BindView(R.id.add_city_search_fragment)
+    TextView mCitySearch;
+    @BindView(R.id.scrollView_linear_layout_fragment)
+    LinearLayout mScrollView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_city_chooser_dialog, container, false);
-        final EditText citySearch = (EditText) view.findViewById(R.id.add_city_search);
-        final LinearLayout scrollView = (LinearLayout) view.findViewById(R.id.scrollView_linear_layout);
+        ButterKnife.bind(this, view);
         final CityListDbHelper helper = new CityListDbHelper(getActivity());
 
-        citySearch.addTextChangedListener(new TextWatcher() {
+        mCitySearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                scrollView.removeAllViews();
+                mScrollView.removeAllViews();
                 if (s.length() > 1) {
                     final List<CityList> cityLists = helper.searchForCity(s.toString());
-                    Log.v("VVV", ""+ cityLists);
                     int citySize = cityLists.size();
                     int size;
                     if (citySize > 9)   {
@@ -51,12 +57,12 @@ public class CityChooserDialogFragment extends android.app.DialogFragment   {
                         size = citySize;
                     }
                     for (int b = 0; b  < size; b++)    {
-                        final View dropdownView = LayoutInflater.from(getActivity()).inflate(R.layout.search_dropdown_element, scrollView, false);
+                        final View dropdownView = LayoutInflater.from(getActivity()).inflate(R.layout.search_dropdown_element, mScrollView, false);
                         final TextView city = (TextView) dropdownView.findViewById(R.id.search_dropdown);
                         final TextView country = (TextView) dropdownView.findViewById(R.id.search_dropdown_country);
                         city.setText(cityLists.get(b).getNm());
                         country.setText(cityLists.get(b).getCountryCode());
-                        scrollView.addView(dropdownView);
+                        mScrollView.addView(dropdownView);
 
                         dropdownView.setTag(cityLists.get(b).getId());
                         dropdownView.setOnClickListener(new View.OnClickListener() {

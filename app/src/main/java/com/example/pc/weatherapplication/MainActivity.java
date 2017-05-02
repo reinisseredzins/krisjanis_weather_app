@@ -26,7 +26,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -50,10 +49,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout mDrawerLayout;
     @BindView(R.id.viewpager)
     ViewPager viewPager;
-    private boolean snackbarisseen;
-
-    private DrawerAdapter mDrawerAdapter;
-
     @BindView(R.id.menu_current_location)
     TextView menuCurrentLocation;
     @BindView(R.id.menu_settings)
@@ -61,12 +56,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @BindView(R.id.city_add)
     TextView menuAddCity;
 
-    Fragment dailyFragment = new DailyFragment();
-    Fragment tomorrowFragment = new TomorrowFragment();
-    Fragment nowFragment = new NowFragment();
-    ActivityFragmentInterface nowFragmentCast = (ActivityFragmentInterface) nowFragment;
-    ActivityFragmentInterface tomorrowFragmentCast = (ActivityFragmentInterface) tomorrowFragment;
-    ActivityFragmentInterface dailyFragmentCast = (ActivityFragmentInterface) dailyFragment;
+    private boolean isSnackBarShown;
+    private DrawerAdapter mDrawerAdapter;
+
+    ActivityFragmentInterface mNowFragmentCast;
+    ActivityFragmentInterface mTomorrowFragmentCast;
+    ActivityFragmentInterface mDailyFragmentCast;
 
 
     @Override
@@ -75,7 +70,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        CityListDbHelper mDbHelper = new CityListDbHelper(this);
+        NowFragment nowFragment = new NowFragment();
+        mNowFragmentCast = nowFragment;
+        TomorrowFragment tomorrowFragment = new TomorrowFragment();
+        mTomorrowFragmentCast = tomorrowFragment;
+        DailyFragment dailyFragment = new DailyFragment();
+        mDailyFragmentCast = dailyFragment;
 
         mDrawerAdapter = new DrawerAdapter(this);
 
@@ -86,14 +86,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ActivityCompat.requestPermissions(this, permissions, 1);
         } else {
             menuCurrentLocation.setVisibility(View.VISIBLE);
-            Log.v("FINE", "Location already granted");
         }
 
         recyclerView.setAdapter(mDrawerAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         final List citiesList = new ArrayList();
-        Log.v("LLL", "cities" + new CityListDbHelper(this).searchForFavorites());
         mDrawerAdapter.setCitySet(citiesList);
 
         onCityChosen();
@@ -109,8 +107,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 if (mDrawerAdapter.getItemCount() <= Constants.MAX_CITY_LIMIT) {
-                    //showCityChooserDialog();
-
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     Fragment prev = getFragmentManager().findFragmentByTag("dialog");
                     if (prev != null) {
@@ -158,8 +154,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-                if (!snackbarisseen && !isOnline(MainActivity.this)) {
-                    showofflinesnackbar();
+                if (!isSnackBarShown && !isOnline(MainActivity.this)) {
+                    displayOfflineSnackBar();
                 }
             }
 
@@ -177,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerToggle.syncState();
 
         if (!isOnline(MainActivity.this)) {
-            showofflinesnackbar();
+            displayOfflineSnackBar();
         }
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -210,17 +206,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    public void showofflinesnackbar() {
-        snackbarisseen = true;
+    public void displayOfflineSnackBar() {
+        isSnackBarShown = true;
         Snackbar.make(mDrawerLayout, "You are currently offline!", Snackbar.LENGTH_INDEFINITE)
                 .setAction("Go online", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Log.v("VVV", " clicked");
-                        nowFragmentCast.reloadData();
-                        tomorrowFragmentCast.reloadData();
-                        dailyFragmentCast.reloadData();
-                        snackbarisseen = false;
+                        mNowFragmentCast.reloadData();
+                        mTomorrowFragmentCast.reloadData();
+                        mDailyFragmentCast.reloadData();
+                        isSnackBarShown = false;
                     }
                 })
                 .show();
@@ -261,9 +256,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void reloadData(String title) {
-        dailyFragmentCast.reloadData();
-        tomorrowFragmentCast.reloadData();
-        nowFragmentCast.reloadData();
+        mDailyFragmentCast.reloadData();
+        mTomorrowFragmentCast.reloadData();
+        mNowFragmentCast.reloadData();
         setTitle(title);
         mDrawerLayout.closeDrawers();
     }

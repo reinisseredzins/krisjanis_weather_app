@@ -4,7 +4,6 @@ package com.example.pc.weatherapplication.fragments;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -85,13 +84,13 @@ public class NowFragment extends Fragment implements Callback<WeatherNow>, Swipe
 
         mSwipeRefreshLayout.setRefreshing(false);
         if (fragmentActivityInterface != null) {
-            fragmentActivityInterface.showofflinesnackbar();
+            fragmentActivityInterface.displayOfflineSnackBar();
         }
     }
 
     public void reloadData() {
         String unitTypes = PreferenceUtils.getUnitTypes(getActivity());
-        String city = PreferenceUtils.getCityTypes(getActivity());
+        String city = PreferenceUtils.getSelectedCity(getActivity());
         WeatherService.getWeatherForecast(this, city, unitTypes);
     }
 
