@@ -1,5 +1,5 @@
 
-package com.example.pc.weatherapplication.weather_now;
+package com.example.pc.weatherapplication.models.weather;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;

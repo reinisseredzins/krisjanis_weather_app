@@ -16,7 +16,7 @@ import com.example.pc.weatherapplication.FragmentActivityInterface;
 import com.example.pc.weatherapplication.R;
 import com.example.pc.weatherapplication.WeatherService;
 import com.example.pc.weatherapplication.utils.PreferenceUtils;
-import com.example.pc.weatherapplication.weather_now.WeatherNow;
+import com.example.pc.weatherapplication.models.weather.WeatherNow;
 
 import retrofit2.Call;
 import retrofit2.Callback;

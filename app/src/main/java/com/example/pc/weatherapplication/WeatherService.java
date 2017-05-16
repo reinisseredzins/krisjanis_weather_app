@@ -1,9 +1,9 @@
 package com.example.pc.weatherapplication;
 
 import com.example.pc.weatherapplication.utils.Constants;
-import com.example.pc.weatherapplication.weather_daily.WeatherDaily;
-import com.example.pc.weatherapplication.weather_details.WeatherDetails;
-import com.example.pc.weatherapplication.weather_now.WeatherNow;
+import com.example.pc.weatherapplication.models.weather.WeatherDaily;
+import com.example.pc.weatherapplication.models.weather.WeatherDetails;
+import com.example.pc.weatherapplication.models.weather.WeatherNow;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

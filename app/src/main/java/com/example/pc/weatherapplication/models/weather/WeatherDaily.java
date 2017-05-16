@@ -1,13 +1,10 @@
 
-package com.example.pc.weatherapplication.weather_details;
+package com.example.pc.weatherapplication.models.weather;
 
-import java.util.ArrayList;
-import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@Generated("org.jsonschema2pojo")
-public class WeatherDetails {
+public class WeatherDaily {
 
     @SerializedName("city")
     @Expose
@@ -23,7 +20,7 @@ public class WeatherDetails {
     private Integer cnt;
     @SerializedName("list")
     @Expose
-    private java.util.List<com.example.pc.weatherapplication.weather_details.List> list = new ArrayList<com.example.pc.weatherapplication.weather_details.List>();
+    private java.util.List<List> list = null;
 
     /**
      * 
@@ -102,7 +99,7 @@ public class WeatherDetails {
      * @return
      *     The list
      */
-    public java.util.List<com.example.pc.weatherapplication.weather_details.List> getList() {
+    public java.util.List<List> getList() {
         return list;
     }
 
@@ -111,7 +108,7 @@ public class WeatherDetails {
      * @param list
      *     The list
      */
-    public void setList(java.util.List<com.example.pc.weatherapplication.weather_details.List> list) {
+    public void setList(java.util.List<List> list) {
         this.list = list;
     }
 

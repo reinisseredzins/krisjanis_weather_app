@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.example.pc.weatherapplication.R;
 import com.example.pc.weatherapplication.utils.Constants;
-import com.example.pc.weatherapplication.weather_daily.List;
+import com.example.pc.weatherapplication.models.weather.List;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;

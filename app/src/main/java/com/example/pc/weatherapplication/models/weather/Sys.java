@@ -1,11 +1,14 @@
 
-package com.example.pc.weatherapplication.weather_now;
+package com.example.pc.weatherapplication.models.weather;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Sys {
 
+    @SerializedName("population")
+    @Expose
+    private Integer population;
     @SerializedName("type")
     @Expose
     private Integer type;
@@ -24,6 +27,20 @@ public class Sys {
     @SerializedName("sunset")
     @Expose
     private Integer sunset;
+
+
+    public Integer getPopulation() {
+        return population;
+    }
+
+    /**
+     * 
+     * @param population
+     *     The population
+     */
+    public void setPopulation(Integer population) {
+        this.population = population;
+    }
 
     public Integer getType() {
         return type;
