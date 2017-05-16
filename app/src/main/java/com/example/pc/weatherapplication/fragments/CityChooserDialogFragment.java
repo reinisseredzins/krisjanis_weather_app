@@ -35,7 +35,7 @@ public class CityChooserDialogFragment extends android.app.DialogFragment   {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_city_chooser_dialog, container, false);
+        final View view = inflater.inflate(R.layout.fragment_city_chooser_fragment, container, false);
         ButterKnife.bind(this, view);
         final CityListDbHelper helper = new CityListDbHelper(getActivity());
 
