@@ -57,8 +57,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.CityViewHo
         if (position == currentlySelectedCity)   {
             holder.mRootView.setBackgroundColor(ContextCompat.getColor(mContext, android.R.color.darker_gray));
         } else {
-
-            holder.mRootView.setBackground(resetBackground());
+            holder.mRootView.setBackgroundResource(R.drawable.ripple_animation);
         }
         holder.mRootView.setOnClickListener(new View.OnClickListener() {
             @Override

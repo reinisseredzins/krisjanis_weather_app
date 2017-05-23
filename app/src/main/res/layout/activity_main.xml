@@ -63,12 +63,13 @@
                 android:gravity="center"
                 android:text="@string/current_location"
                 android:textSize="@dimen/default_menu_text"
-                android:background="?android:attr/selectableItemBackground"/>
+                android:background="@drawable/ripple_animation"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/drawer_cities"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"/>
 
             </LinearLayout>
 
@@ -85,7 +86,7 @@
                         android:gravity="center"
                         android:text="@string/add_city"
                         android:textSize="@dimen/default_menu_text"
-                        android:background="?android:attr/selectableItemBackground"
+                        android:background="@drawable/ripple_animation"
                         android:layout_weight="1"/>
 
 
@@ -96,7 +97,7 @@
                     android:gravity="center"
                     android:text="@string/settings_title"
                     android:textSize="@dimen/default_menu_text"
-                    android:background="?android:attr/selectableItemBackground"/>
+                    android:background="@drawable/ripple_animation"/>
             </LinearLayout>
 
     </android.support.design.widget.NavigationView>
