@@ -18,6 +18,7 @@ import com.example.pc.weatherapplication.WeatherService;
 import com.example.pc.weatherapplication.utils.PreferenceUtils;
 import com.example.pc.weatherapplication.models.weather.WeatherDaily;
 
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -54,6 +55,7 @@ public class TomorrowFragment extends Fragment implements Callback<WeatherDaily>
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_tomorrow, container, false);
+        ButterKnife.bind(this, view);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout_tomorrow);
         mSwipeRefreshLayout.setOnRefreshListener(this);
