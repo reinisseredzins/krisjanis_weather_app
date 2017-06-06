@@ -15,21 +15,28 @@ import com.example.pc.weatherapplication.ActivityFragmentInterface;
 import com.example.pc.weatherapplication.FragmentActivityInterface;
 import com.example.pc.weatherapplication.R;
 import com.example.pc.weatherapplication.WeatherService;
+import com.example.pc.weatherapplication.custom_views.TemperatureGraph;
+import com.example.pc.weatherapplication.models.weather.CurrentWeather;
+import com.example.pc.weatherapplication.models.weather.ForecastEveryThreeHours;
 import com.example.pc.weatherapplication.utils.PreferenceUtils;
-import com.example.pc.weatherapplication.models.weather.WeatherNow;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class NowFragment extends Fragment implements Callback<WeatherNow>, SwipeRefreshLayout.OnRefreshListener, ActivityFragmentInterface {
+public class NowFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ActivityFragmentInterface {
 
     private String TAG = NowFragment.class.getSimpleName();
     private TextView mTemp;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     FragmentActivityInterface fragmentActivityInterface;
+
+    @BindView(R.id.temperature_graph_now)
+    TemperatureGraph mTemperatureGraph;
 
     public NowFragment() {}
 
@@ -52,8 +59,8 @@ public class NowFragment extends Fragment implements Callback<WeatherNow>, Swipe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
         final View view = inflater.inflate(R.layout.fragment_now, container, false);
+        ButterKnife.bind(this, view);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout_now);
         mSwipeRefreshLayout.setOnRefreshListener(this);
@@ -71,27 +78,53 @@ public class NowFragment extends Fragment implements Callback<WeatherNow>, Swipe
     }
 
 
-    @Override
-    public void onResponse(Call<WeatherNow> call, Response<WeatherNow> response) {
-        mSwipeRefreshLayout.setRefreshing(false);
-        final WeatherNow forecast = response.body();
-        mTemp.setText(Double.toString(forecast.getMain().getTemp()));
+
+
+    private class CurrentWeatherCallback implements Callback<CurrentWeather> {
+
+        @Override
+        public void onResponse(Call<CurrentWeather> call, Response<CurrentWeather> response) {
+            mSwipeRefreshLayout.setRefreshing(false);
+            final CurrentWeather forecast = response.body();
+            mTemp.setText(String.valueOf(forecast.getMain().getTemp()));
+        }
+
+        @Override
+        public void onFailure(Call<CurrentWeather> call, Throwable t) {
+            Log.e(TAG, "Received error from NowFragment network call");
+
+            mSwipeRefreshLayout.setRefreshing(false);
+            if (fragmentActivityInterface != null) {
+                fragmentActivityInterface.displayOfflineSnackBar();
+            }
+        }
     }
 
-    @Override
-    public void onFailure(Call<WeatherNow> call, Throwable t) {
-        Log.e(TAG, "Received error from NowFragment network call");
+    private class ForecastEveryThreeHoursCallback implements Callback<ForecastEveryThreeHours> {
 
-        mSwipeRefreshLayout.setRefreshing(false);
-        if (fragmentActivityInterface != null) {
-            fragmentActivityInterface.displayOfflineSnackBar();
+        @Override
+        public void onResponse(Call<ForecastEveryThreeHours> call, Response<ForecastEveryThreeHours> response) {
+            mSwipeRefreshLayout.setRefreshing(false);
+            final ForecastEveryThreeHours forecast = response.body();
+            mTemperatureGraph.addButtonViews(forecast);
+        }
+
+        @Override
+        public void onFailure(Call<ForecastEveryThreeHours> call, Throwable t) {
+            Log.e(TAG, "Received error from NowFragment network call");
+
+            mSwipeRefreshLayout.setRefreshing(false);
+            if (fragmentActivityInterface != null) {
+                fragmentActivityInterface.displayOfflineSnackBar();
+            }
         }
     }
 
     public void reloadData() {
         String unitTypes = PreferenceUtils.getUnitTypes(getActivity());
         String city = PreferenceUtils.getSelectedCity(getActivity());
-        WeatherService.getWeatherForecast(this, city, unitTypes);
+        WeatherService.getCurrentWeather(new CurrentWeatherCallback(), city, unitTypes);
+        WeatherService.getForecastEveryThreeHours(new ForecastEveryThreeHoursCallback(), city, unitTypes);
     }
 
 

@@ -15,22 +15,27 @@ import com.example.pc.weatherapplication.ActivityFragmentInterface;
 import com.example.pc.weatherapplication.FragmentActivityInterface;
 import com.example.pc.weatherapplication.R;
 import com.example.pc.weatherapplication.WeatherService;
+import com.example.pc.weatherapplication.custom_views.TemperatureGraph;
+import com.example.pc.weatherapplication.models.weather.EveryDayForecast;
 import com.example.pc.weatherapplication.utils.PreferenceUtils;
-import com.example.pc.weatherapplication.models.weather.WeatherDaily;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class TomorrowFragment extends Fragment implements Callback<WeatherDaily>, SwipeRefreshLayout.OnRefreshListener, ActivityFragmentInterface {
+public class TomorrowFragment extends Fragment implements Callback<EveryDayForecast>, SwipeRefreshLayout.OnRefreshListener, ActivityFragmentInterface {
 
     private TextView mTemp;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private String TAG = TomorrowFragment.class.getSimpleName();
 
     FragmentActivityInterface fragmentActivityInterface;
+
+    @BindView(R.id.temperature_graph)
+    TemperatureGraph mTemperatureGraph;
 
     public TomorrowFragment() {
     }
@@ -72,15 +77,18 @@ public class TomorrowFragment extends Fragment implements Callback<WeatherDaily>
     }
 
     @Override
-    public void onResponse(Call<WeatherDaily> call, Response<WeatherDaily> response) {
+    public void onResponse(Call<EveryDayForecast> call, Response<EveryDayForecast> response) {
         mSwipeRefreshLayout.setRefreshing(false);
-        final WeatherDaily forecast = response.body();
-        mTemp.setText(Double.toString(forecast.getList().get(1).getTemp().getDay()));
+        if (response != null && response.isSuccessful()) {
+            final EveryDayForecast forecast = response.body();
+            //mTemperatureGraph.addButtonViews(forecast);
+            mTemp.setText(Double.toString(forecast.getWeatherMetadata().get(1).getTemp().getDay()));
+        }
     }
 
 
     @Override
-    public void onFailure(Call<WeatherDaily> call, Throwable t) {
+    public void onFailure(Call<EveryDayForecast> call, Throwable t) {
         Log.e(TAG, "Received error from NowFragment network call");
 
         mSwipeRefreshLayout.setRefreshing(false);
@@ -90,10 +98,12 @@ public class TomorrowFragment extends Fragment implements Callback<WeatherDaily>
         }
     }
 
+
+
     public void reloadData() {
         String unitTypes = PreferenceUtils.getUnitTypes(getActivity());
         String city = PreferenceUtils.getSelectedCity(getActivity());
-        WeatherService.getDaily(this, city, unitTypes);
+        WeatherService.getEveryDayForecast(this, city, unitTypes);
     }
 
     @Override

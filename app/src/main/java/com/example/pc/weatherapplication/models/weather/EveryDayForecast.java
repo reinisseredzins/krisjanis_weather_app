@@ -4,7 +4,7 @@ package com.example.pc.weatherapplication.models.weather;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class WeatherDaily {
+public class EveryDayForecast {
 
     @SerializedName("city")
     @Expose
@@ -20,7 +20,7 @@ public class WeatherDaily {
     private Integer cnt;
     @SerializedName("list")
     @Expose
-    private java.util.List<List> list = null;
+    private java.util.List<WeatherMetadata> weatherMetadata = null;
 
     /**
      * 
@@ -97,19 +97,19 @@ public class WeatherDaily {
     /**
      * 
      * @return
-     *     The list
+     *     The weatherMetadata
      */
-    public java.util.List<List> getList() {
-        return list;
+    public java.util.List<WeatherMetadata> getWeatherMetadata() {
+        return weatherMetadata;
     }
 
     /**
      * 
-     * @param list
-     *     The list
+     * @param weatherMetadata
+     *     The weatherMetadata
      */
-    public void setList(java.util.List<List> list) {
-        this.list = list;
+    public void setWeatherMetadata(java.util.List<WeatherMetadata> weatherMetadata) {
+        this.weatherMetadata = weatherMetadata;
     }
 
 }

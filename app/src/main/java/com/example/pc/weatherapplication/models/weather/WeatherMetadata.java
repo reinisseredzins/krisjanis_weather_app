@@ -11,7 +11,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class List {
+public class WeatherMetadata {
 
     @SerializedName("dt")
     @Expose
@@ -31,9 +31,9 @@ public class List {
     @SerializedName("deg")
     @Expose
     private Integer deg;
-    @SerializedName("rain")
+/*    @SerializedName("rain")
     @Expose
-    private Double rain;
+    private Double rain;*/
     private java.util.List<Weather> weather = new ArrayList<Weather>();
     //@SerializedName("clouds")
     //@Expose
@@ -118,13 +118,13 @@ public class List {
         this.clouds = clouds;
     }*/
 
-    public Double getRain() {
+/*    public Double getRain() {
         return rain;
     }
 
     public void setRain(Double rain) {
         this.rain = rain;
-    }
+    }*/
 
     public Main getMain() {
         return main;

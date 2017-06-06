@@ -10,11 +10,17 @@
         android:layout_height="match_parent">
 
 
+        <com.example.pc.weatherapplication.custom_views.TemperatureGraph
+            android:id="@+id/temperature_graph_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"/>
+
         <TextView
             android:id="@+id/now_temp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="bottom"
             android:textSize="@dimen/now_temp" />
 
     </android.support.v4.widget.SwipeRefreshLayout>

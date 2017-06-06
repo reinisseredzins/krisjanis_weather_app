@@ -2,7 +2,6 @@ package com.example.pc.weatherapplication.adapters;
 
 
 import android.preference.PreferenceManager;
-import android.support.annotation.DrawableRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.pc.weatherapplication.R;
-import com.example.pc.weatherapplication.utils.Constants;
-import com.example.pc.weatherapplication.models.weather.List;
-import com.squareup.picasso.Picasso;
+import com.example.pc.weatherapplication.models.weather.WeatherMetadata;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,7 +44,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.WeatherListV
         mIconToDrawable.put("50n", R.drawable.cloud_fog);  // mist night
     }
 
-    java.util.List<List> mDailyList = new ArrayList<>();
+    java.util.List<WeatherMetadata> mDailyList = new ArrayList<>();
     SimpleDateFormat inFormat = new SimpleDateFormat("EEEE, dd MMMM yyyy");
 
 
@@ -102,7 +99,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.WeatherListV
         return mDailyList.size();
     }
 
-    public void setDailySet(java.util.List<List> newDataSet) {
+    public void setDailySet(java.util.List<WeatherMetadata> newDataSet) {
         removeTodayAndTomorrow(newDataSet);
         mDailyList = newDataSet;
         notifyDataSetChanged();
@@ -110,7 +107,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.WeatherListV
 
 
 
-    public void removeTodayAndTomorrow(java.util.List<List> newDataSet) {
+    public void removeTodayAndTomorrow(java.util.List<WeatherMetadata> newDataSet) {
         newDataSet.remove(0);
         newDataSet.remove(0);
     }

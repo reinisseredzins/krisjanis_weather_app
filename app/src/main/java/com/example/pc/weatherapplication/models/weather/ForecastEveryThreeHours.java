@@ -7,7 +7,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 @Generated("org.jsonschema2pojo")
-public class WeatherDetails {
+public class ForecastEveryThreeHours {
 
     @SerializedName("city")
     @Expose
@@ -23,7 +23,7 @@ public class WeatherDetails {
     private Integer cnt;
     @SerializedName("list")
     @Expose
-    private java.util.List<com.example.pc.weatherapplication.models.weather.List> list = new ArrayList<com.example.pc.weatherapplication.models.weather.List>();
+    private java.util.List<WeatherMetadata> weatherMetadata = new ArrayList<WeatherMetadata>();
 
     public City getCity() {
         return city;
@@ -57,12 +57,12 @@ public class WeatherDetails {
         this.cnt = cnt;
     }
 
-    public java.util.List<List> getList() {
-        return list;
+    public java.util.List<WeatherMetadata> getWeatherMetadata() {
+        return weatherMetadata;
     }
 
-    public void setList(java.util.List<com.example.pc.weatherapplication.models.weather.List> list) {
-        this.list = list;
+    public void setWeatherMetadata(java.util.List<WeatherMetadata> weatherMetadata) {
+        this.weatherMetadata = weatherMetadata;
     }
 
 }
