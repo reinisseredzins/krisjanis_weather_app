@@ -16,8 +16,12 @@ import com.example.pc.weatherapplication.FragmentActivityInterface;
 import com.example.pc.weatherapplication.R;
 import com.example.pc.weatherapplication.WeatherService;
 import com.example.pc.weatherapplication.custom_views.TemperatureGraph;
+import com.example.pc.weatherapplication.models.weather.CurrentWeather;
 import com.example.pc.weatherapplication.models.weather.EveryDayForecast;
+import com.example.pc.weatherapplication.models.weather.ForecastEveryThreeHours;
 import com.example.pc.weatherapplication.utils.PreferenceUtils;
+
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,7 +30,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class TomorrowFragment extends Fragment implements Callback<EveryDayForecast>, SwipeRefreshLayout.OnRefreshListener, ActivityFragmentInterface {
+public class TomorrowFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ActivityFragmentInterface {
 
     private TextView mTemp;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -34,7 +38,7 @@ public class TomorrowFragment extends Fragment implements Callback<EveryDayForec
 
     FragmentActivityInterface fragmentActivityInterface;
 
-    @BindView(R.id.temperature_graph)
+    @BindView(R.id.temperature_graph_now)
     TemperatureGraph mTemperatureGraph;
 
     public TomorrowFragment() {
@@ -76,25 +80,43 @@ public class TomorrowFragment extends Fragment implements Callback<EveryDayForec
         reloadData();
     }
 
-    @Override
-    public void onResponse(Call<EveryDayForecast> call, Response<EveryDayForecast> response) {
-        mSwipeRefreshLayout.setRefreshing(false);
-        if (response != null && response.isSuccessful()) {
+    private class EveryDayForecastCallback implements Callback<EveryDayForecast> {
+
+        @Override
+        public void onResponse(Call<EveryDayForecast> call, Response<EveryDayForecast> response) {
+            mSwipeRefreshLayout.setRefreshing(false);
             final EveryDayForecast forecast = response.body();
-            //mTemperatureGraph.addButtonViews(forecast);
-            mTemp.setText(Double.toString(forecast.getWeatherMetadata().get(1).getTemp().getDay()));
+            //mTemp.setText(String.valueOf(forecast.));
+        }
+
+        @Override
+        public void onFailure(Call<EveryDayForecast> call, Throwable t) {
+            Log.e(TAG, "Received error from NowFragment network call");
+
+            mSwipeRefreshLayout.setRefreshing(false);
+            if (fragmentActivityInterface != null) {
+                fragmentActivityInterface.displayOfflineSnackBar();
+            }
         }
     }
 
+    private class ForecastEveryThreeHoursCallback implements Callback<ForecastEveryThreeHours> {
 
-    @Override
-    public void onFailure(Call<EveryDayForecast> call, Throwable t) {
-        Log.e(TAG, "Received error from NowFragment network call");
+        @Override
+        public void onResponse(Call<ForecastEveryThreeHours> call, Response<ForecastEveryThreeHours> response) {
+            mSwipeRefreshLayout.setRefreshing(false);
+            final ForecastEveryThreeHours forecast = response.body();
+            mTemperatureGraph.addButtonViews(forecast.getWeatherMetadata(), TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis()) + 1);
+        }
 
-        mSwipeRefreshLayout.setRefreshing(false);
-        if (fragmentActivityInterface != null) {
-            fragmentActivityInterface.displayOfflineSnackBar();
+        @Override
+        public void onFailure(Call<ForecastEveryThreeHours> call, Throwable t) {
+            Log.e(TAG, "Received error from NowFragment network call");
 
+            mSwipeRefreshLayout.setRefreshing(false);
+            if (fragmentActivityInterface != null) {
+                fragmentActivityInterface.displayOfflineSnackBar();
+            }
         }
     }
 
@@ -103,7 +125,8 @@ public class TomorrowFragment extends Fragment implements Callback<EveryDayForec
     public void reloadData() {
         String unitTypes = PreferenceUtils.getUnitTypes(getActivity());
         String city = PreferenceUtils.getSelectedCity(getActivity());
-        WeatherService.getEveryDayForecast(this, city, unitTypes);
+        WeatherService.getEveryDayForecast(new EveryDayForecastCallback(), city, unitTypes);
+        WeatherService.getForecastEveryThreeHours(new ForecastEveryThreeHoursCallback(), city, unitTypes);
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.pc.weatherapplication.R;
 import com.example.pc.weatherapplication.models.weather.WeatherMetadata;
+import com.example.pc.weatherapplication.utils.Constants;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,29 +21,6 @@ import java.util.concurrent.TimeUnit;
 
 
 public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.WeatherListViewHolderDaily> {
-
-    static HashMap<String, Integer> mIconToDrawable = new HashMap<>();
-    static {
-        mIconToDrawable.put("01d", R.drawable.sun);  // clear sky day
-        mIconToDrawable.put("02d", R.drawable.cloud_sun);  // few clouds day
-        mIconToDrawable.put("03d", R.drawable.cloud);  // scattered clouds day
-        mIconToDrawable.put("04d", R.drawable.cloud_wind);  // broken clouds day
-        mIconToDrawable.put("09d", R.drawable.cloud_rain_sun_alt);  // shower rain day
-        mIconToDrawable.put("10d", R.drawable.cloud_rain_sun);  // rain day
-        mIconToDrawable.put("11d", R.drawable.cloud_lightning);  // thunderstorm day
-        mIconToDrawable.put("13d", R.drawable.cloud_snow_alt);  // snow day
-        mIconToDrawable.put("50d", R.drawable.cloud_fog);  // mist day
-
-        mIconToDrawable.put("01n", R.drawable.moon);  // clear sky night
-        mIconToDrawable.put("02n", R.drawable.cloud_moon);  // few clouds night
-        mIconToDrawable.put("03n", R.drawable.cloud);  // scattered clouds night
-        mIconToDrawable.put("04n", R.drawable.cloud_wind);  // broken clouds night
-        mIconToDrawable.put("09n", R.drawable.cloud_rain_moon_alt);  // shower rain night
-        mIconToDrawable.put("10n", R.drawable.cloud_rain_moon);  // rain night
-        mIconToDrawable.put("11n", R.drawable.cloud_lightning);  // thunderstorm night
-        mIconToDrawable.put("13n", R.drawable.cloud_snow_alt);  // snow night
-        mIconToDrawable.put("50n", R.drawable.cloud_fog);  // mist night
-    }
 
     java.util.List<WeatherMetadata> mDailyList = new ArrayList<>();
     SimpleDateFormat inFormat = new SimpleDateFormat("EEEE, dd MMMM yyyy");
@@ -69,7 +47,7 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.WeatherListV
 
         final String icon = (mDailyList.get(position).getWeather().get(0).getIcon());
         holder.mWeatherDescription.setText(mDailyList.get(position).getWeather().get(0).getDescription());
-        holder.mImage.setBackgroundResource(mIconToDrawable.get(icon));
+        holder.mImage.setBackgroundResource(Constants.mIconToDrawable.get(icon));
 
         String celsius = "°C";
         String fahrenheit = "°F";

@@ -20,6 +20,8 @@ import com.example.pc.weatherapplication.models.weather.CurrentWeather;
 import com.example.pc.weatherapplication.models.weather.ForecastEveryThreeHours;
 import com.example.pc.weatherapplication.utils.PreferenceUtils;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -38,12 +40,13 @@ public class NowFragment extends Fragment implements SwipeRefreshLayout.OnRefres
     @BindView(R.id.temperature_graph_now)
     TemperatureGraph mTemperatureGraph;
 
-    public NowFragment() {}
+    public NowFragment() {
+    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof  FragmentActivityInterface) {
+        if (context instanceof FragmentActivityInterface) {
             fragmentActivityInterface = (FragmentActivityInterface) context;
         } else {
         }
@@ -78,8 +81,6 @@ public class NowFragment extends Fragment implements SwipeRefreshLayout.OnRefres
     }
 
 
-
-
     private class CurrentWeatherCallback implements Callback<CurrentWeather> {
 
         @Override
@@ -106,7 +107,7 @@ public class NowFragment extends Fragment implements SwipeRefreshLayout.OnRefres
         public void onResponse(Call<ForecastEveryThreeHours> call, Response<ForecastEveryThreeHours> response) {
             mSwipeRefreshLayout.setRefreshing(false);
             final ForecastEveryThreeHours forecast = response.body();
-            mTemperatureGraph.addButtonViews(forecast);
+            mTemperatureGraph.addButtonViews(forecast.getWeatherMetadata(), TimeUnit.MILLISECONDS.toDays(System.currentTimeMillis()));
         }
 
         @Override
@@ -133,5 +134,5 @@ public class NowFragment extends Fragment implements SwipeRefreshLayout.OnRefres
         mSwipeRefreshLayout.setRefreshing(true);
         reloadData();
     }
-    }
+}
 
